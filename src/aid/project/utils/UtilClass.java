@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
@@ -38,6 +39,7 @@ public class UtilClass {
 	 * File types
 	 */
 
+	private static String PLAINFILE = "plain";
 	public static String PDFFILE = "pdf";
 	public static String DOCFILE = "msword";
 	public static String ODTFILE = "vnd.oasis.opendocument.text";
@@ -85,7 +87,24 @@ public class UtilClass {
 			return createOdtDocument(f);
 		else if(getTypeOfFile(f).equalsIgnoreCase(PDFFILE))
 			return createPdfDocument(f);
+		else if(getTypeOfFile(f).equalsIgnoreCase(PLAINFILE))
+			return createPlainFile(f);
 		throw new NullPointerException("da fuck are you doing?");
+	}
+
+	private InputDocument createPlainFile(File f) {
+		// TODO Auto-generated method stub
+		
+		Scanner sc;
+		try {
+			sc = new Scanner(f, "UTF-8");sc.useDelimiter("$^"); // regex matching nothing 
+			String text = sc.next(); sc.close(); 
+			return new InputDocument(PLAINFILE, f.getName().substring(0, f.getName().length() - 4), text, 0);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return null;
 	}
 
 	/**
