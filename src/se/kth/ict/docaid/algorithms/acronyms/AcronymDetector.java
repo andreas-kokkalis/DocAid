@@ -3,23 +3,21 @@ package se.kth.ict.docaid.algorithms.acronyms;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+/**
+ * @author adrian, andrew
+ *
+ */
 public class AcronymDetector {
-
 	static HashMap<String, Boolean> acronymCheck = new HashMap<String, Boolean>();
 	static HashMap<String, Boolean> acronymCheckFirstUse = new HashMap<String, Boolean>();
-	
-	private AcronymDetector() {
-
-	}
 
 	/**
 	 * Generates a list of acronyms for the text
 	 * 
-	 * @param text
-	 * @return the list
+	 * @param text Input text from which acronyms are extracted.
+	 * @return The list of acronyms if exist, or an empty list.
 	 */
 	public static LinkedList<String> detectAcronyms(String text) {
-
 		LinkedList<String> acronymList = new LinkedList<String>();
 
 		// System.out.println("text "+ text);
@@ -52,14 +50,21 @@ public class AcronymDetector {
 
 	}
 
+	/**
+	 * @param w
+	 * @return
+	 */
 	private static boolean possiblyAcronym(String w) {
-
 		if (w.length() == 1)
 			return false;
 		return isAcronym(w);
 
 	}
 
+	/**
+	 * @param s
+	 * @return
+	 */
 	private static boolean isAcronym(String s) {
 		boolean isAcronym = true;
 		for (char c : s.toCharArray()) {
@@ -77,6 +82,11 @@ public class AcronymDetector {
 		return (isAcronym && containsLetters);
 	}
 
+	/**
+	 * @param listOfAcronyms
+	 * @param text
+	 * @return
+	 */
 	public static LinkedList<Acronym> checkAcronymsOnSight(
 			LinkedList<String> listOfAcronyms, String text) {
 
@@ -200,6 +210,11 @@ public class AcronymDetector {
 		
 	}
 
+	/**
+	 * @param w
+	 * @param wordsAfter
+	 * @return
+	 */
 	private static boolean checkWords(String w, String[] wordsAfter) {
 
 		boolean okSpelling = true;

@@ -15,9 +15,12 @@ public class KeyphraseExtractor {
 
 		MauiWrapper wrap = new MauiWrapper("", "", "keyphrextr");
 		try {
-			Instance[] st = wrap.extractTopicsFromText(doc.getBody(), 10);
-			for (Instance s : st)
+			Instance[] st = wrap.extractTopicsFromText(doc.getBody(), 50);
+			for (Instance s : st) {
 				System.out.println("xx " + s.stringValue(1) + " " + s.value(4));
+				
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
