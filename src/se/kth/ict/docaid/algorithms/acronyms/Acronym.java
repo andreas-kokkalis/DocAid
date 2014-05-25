@@ -51,7 +51,9 @@ public class Acronym {
 		
 		String objs = "";
 		
+		if (spelledOut!=null)
 		for (String s :spelledOut) objs = objs +" "+s;
+		else objs = "not spelled out";
 		
 		return "Acronym [acronym=" + acronym + ", spelledOut=" + objs
 				+ ", isSpelledOut=" + isSpelledOut + ", isSpelledOnFirstCheck="

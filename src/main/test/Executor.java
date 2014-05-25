@@ -9,6 +9,9 @@ import org.apache.tika.exception.TikaException;
 import org.jsoup.Jsoup;
 import org.xml.sax.SAXException;
 
+import se.kth.ict.docaid.algorithms.acronyms.Acronym;
+import se.kth.ict.docaid.algorithms.acronyms.AcronymDetector;
+import se.kth.ict.docaid.algorithms.keywords.KeywordExtractor;
 import se.kth.ict.docaid.reader.WebReader;
 import aid.project.recovery.InputDocument;
 import aid.project.recovery.WebDocument;
@@ -33,7 +36,7 @@ public class Executor {
 		System.out.println(reader.getKeywords());
 */
 		
-		System.out.println(Jsoup.parse("<p>Geographic Information Systems (GIS) are being used in a wide variety of applications. A key component of any GIS application is the underlying spatial database which must be designed to support efficient data storage, access and analysis operations.This course focuses on the design and development of spatial databases. Particular emphasis will be placed on the use of data modeling techniques to design a GIS database for a specific application. Students will work in small groups to develop a conceptual design for a GIS database and will then work individually to build a spatial database using digital data available through digital library as well as data digitized from existing maps, imagery and field data collected using GPS. The resulting database will be used to perform some basic spatial analysis.</p>").text());
+		System.out.println(AcronymDetector.checkAcronymsOnSight(AcronymDetector.detectAcronyms(Jsoup.parse("<p>Geographic Information Systems (GIS) are being used in a wide variety of applications. A key component of any GIS application is the underlying spatial database which must be designed to support efficient data storage, access and analysis operations.This course focuses on the design and development of spatial databases. Particular emphasis will be placed on the use of data modeling techniques to design a GIS database for a specific application. Students will work in small groups to develop a conceptual design for a GIS database and will then work individually to build a spatial database using digital data available through digital library as well as data digitized from existing maps, imagery and field data collected using GPS. The resulting database will be used to perform some basic spatial analysis.</p>").text()), Jsoup.parse("<p>Geographic Information Systems (GIS) are being used in a wide variety of applications. A key component of any GIS application is the underlying spatial database which must be designed to support efficient data storage, access and analysis operations.This course focuses on the design and development of spatial databases. Particular emphasis will be placed on the use of data modeling techniques to design a GIS database for a specific application. Students will work in small groups to develop a conceptual design for a GIS database and will then work individually to build a spatial database using digital data available through digital library as well as data digitized from existing maps, imagery and field data collected using GPS. The resulting database will be used to perform some basic spatial analysis.</p>").text()));
 		LinkedList<File> files = UtilClass.getTestFiles();
 		for (File f : files) {
 			try {

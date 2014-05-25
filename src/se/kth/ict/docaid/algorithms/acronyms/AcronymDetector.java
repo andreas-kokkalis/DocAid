@@ -194,6 +194,7 @@ public class AcronymDetector {
 			}
 			if (!acronymCheckFirstUse.containsKey(acronym)) 
 				{
+				if (!acronymIsSpelled) acronymIsSpelledOnFirstUse = false; 
 				acronymCheckFirstUse.put(acronym, acronymIsSpelledOnFirstUse);
 				currentAcronym.setSpelledOnFirstCheck(acronymIsSpelledOnFirstUse);
 				}
