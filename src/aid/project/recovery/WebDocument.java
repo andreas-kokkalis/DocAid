@@ -1,10 +1,8 @@
 package aid.project.recovery;
 
-import aid.project.utils.UtilClass;
-import ws.palladian.classification.numeric.KNNClassifier;
 import ws.palladian.preprocessing.scraping.PageContentExtractorException;
 import ws.palladian.preprocessing.scraping.ReadabilityContentExtractor;
-import ws.palladian.preprocessing.scraping.WebPageContentExtractor;
+import aid.project.utils.UtilClass;
 
 public class WebDocument {
 
@@ -53,6 +51,7 @@ public class WebDocument {
 	}
 
 	private void generateContent(String url){
+		@SuppressWarnings("static-access")
 		ReadabilityContentExtractor extractor = UtilClass.getInstance().getExtractor();
 		try {
 			extractor.setDocument(this.url);

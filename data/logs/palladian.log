@@ -33,3 +33,5 @@
 2014-03-16 20:07:41,325 WARN [    main] com.hp.hpl.jena.rdf.model.impl.RDFDefaultErrorHandler.warning(RDFDefaultErrorHandler.java:36) : (line 702731 column 101): {W131} String not in Unicode Normal Form C: "Ḥaram-i Muṭahhar-i Ḥaz̤rat-i Maʻṣūmah (Qum, Iran)"
 2014-03-16 20:07:41,363 WARN [    main] com.hp.hpl.jena.rdf.model.impl.RDFDefaultErrorHandler.warning(RDFDefaultErrorHandler.java:36) : (line 706236 column 64): {W131} String not in Unicode Normal Form C: "In̄goma (Drum)"
 2014-03-16 20:07:41,415 WARN [    main] com.hp.hpl.jena.rdf.model.impl.RDFDefaultErrorHandler.warning(RDFDefaultErrorHandler.java:36) : (line 710671 column 69): {W131} String not in Unicode Normal Form C: "Teres̆c̆enko family"
+2014-05-20 19:04:58,239 WARN [inalizer] org.apache.pdfbox.cos.COSDocument.finalize(COSDocument.java:615) : Warning: You did not close a PDF Document
+2014-05-20 19:06:11,822 WARN [inalizer] org.apache.pdfbox.cos.COSDocument.finalize(COSDocument.java:615) : Warning: You did not close a PDF Document

@@ -7,8 +7,7 @@ public class InputDocument {
 	String body;
 	int numberOfPages;
 
-	public InputDocument(String type, String title, String body,
-			int numberOfPages) {
+	public InputDocument(String type, String title, String body, int numberOfPages) {
 		super();
 		this.type = type;
 		this.title = title;
@@ -34,9 +33,7 @@ public class InputDocument {
 
 	@Override
 	public String toString() {
-		return "InputDocument [type=" + type + ", title=" + title +  ", numberOfPages=" + numberOfPages + ", body="
-				+ body +"]";
+		return "InputDocument [type=" + type + ", title=" + title + ", numberOfPages=" + numberOfPages + ", body=" + body + "]";
 	}
 
-	
 }

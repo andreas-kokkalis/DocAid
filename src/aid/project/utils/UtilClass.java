@@ -23,9 +23,8 @@ import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-import aid.project.recovery.InputDocument;
-
 import ws.palladian.preprocessing.scraping.ReadabilityContentExtractor;
+import aid.project.recovery.InputDocument;
 
 /**
  * Static class that contains the generic tools. Implemented as singleton to avoid multi-initialization of objects.
@@ -84,7 +83,9 @@ public class UtilClass {
 			return createDocDocument(f);
 		else if (getTypeOfFile(f).equalsIgnoreCase(ODTFILE))
 			return createOdtDocument(f);
-		return createPdfDocument(f);
+		else if(getTypeOfFile(f).equalsIgnoreCase(PDFFILE))
+			return createPdfDocument(f);
+		throw new NullPointerException("da fuck are you doing?");
 	}
 
 	/**
@@ -95,11 +96,22 @@ public class UtilClass {
 	 * @throws IOException
 	 */
 	public static InputDocument createPdfDocument(File f) throws IOException {
-		PDDocument document = PDDocument.load(f);
+		PDDocument document = null;
+		try {
+		document = PDDocument.load(f);
+		}
+		catch(IOException e) {
+			System.out.println("PDF file: " + "\n" + e);
+		}
+		
 		PDFTextStripper stripper = new PDFTextStripper();
 		stripper.setStartPage(1);
 		stripper.setEndPage(document.getNumberOfPages());
-		return new InputDocument(PDFFILE, document.getDocumentInformation().getTitle(), stripper.getText(document), document.getNumberOfPages());
+		String documentTitle = document.getDocumentInformation().getTitle();
+		Integer numOfPages = document.getNumberOfPages();
+		String content = stripper.getText(document);
+		document.close();
+		return new InputDocument(PDFFILE, documentTitle, content, numOfPages);
 	}
 
 	public static InputDocument createOdtDocument(File f) throws IOException, SAXException, TikaException {
@@ -117,9 +129,11 @@ public class UtilClass {
 	public InputDocument createDocDocument(File f) throws FileNotFoundException, IOException {
 		// TODO Auto-generated method stub
 		HWPFDocument wordDoc = new HWPFDocument(new FileInputStream(f.getAbsolutePath()));
-		WordExtractor we = new WordExtractor(wordDoc);
-
-		return new InputDocument(DOCFILE, f.getName().substring(0, f.getName().length() - 4), we.getText(), we.getSummaryInformation().getPageCount());
+		WordExtractor wordExtractor = new WordExtractor(wordDoc);
+		String text = wordExtractor.getText();
+		int pageCount = wordExtractor.getSummaryInformation().getPageCount();
+		wordExtractor.close();
+		return new InputDocument(DOCFILE, f.getName().substring(0, f.getName().length() - 4), text, pageCount);
 	}
 
 	/**
@@ -136,6 +150,7 @@ public class UtilClass {
 			if (listOfFiles[i].isFile()) {
 				myListOfFiles.add(listOfFiles[i]);
 				System.out.println("File " + listOfFiles[i].getName());
+				
 			} else if (listOfFiles[i].isDirectory()) {
 				System.out.println("Directory " + listOfFiles[i].getName());
 			}
