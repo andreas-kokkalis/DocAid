@@ -1,5 +1,9 @@
 package se.kth.ict.docaid.course;
 
+import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
+import se.kth.ict.docaid.algorithms.keywords.Keyword;
+import se.kth.ict.docaid.reader.WebReader;
+
 public class Course {
 	private String code;
 	private int round;
@@ -19,6 +23,8 @@ public class Course {
 	private String recruitmentTextEn;
 	private String recruitmentTextSv; 
 	private String courseURL;
+	
+	private WebReader reader;
 	
 	public boolean isCancelled() {
 		return isCancelled;
@@ -156,6 +162,14 @@ public class Course {
 		this.round = round;
 	}
 
+	public WebReader getReader() {
+		return reader;
+	}
+
+	public void setReader(WebReader reader) {
+		this.reader = reader;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder st = new StringBuilder();
@@ -179,6 +193,12 @@ public class Course {
 		st.append("Recruitement text En:").append("\t").append(recruitmentTextEn).append("\n");
 		st.append("Recruitement text Sv:").append("\t").append(recruitmentTextSv).append("\n");
 		st.append("URL:").append("\t\t\t").append(courseURL).append("\n");
+		st.append("Keywords: ").append("\n");
+		for(Keyword keyword: reader.getKeywords())
+			st.append(keyword.toString()).append("\n");
+		st.append("Keyphrases: ").append("\n");
+		for(Keyphrase keyphrase: reader.getKeyphrases())
+			st.append(keyphrase.toString()).append("\n");
 		st.append("-------------------------------------------------").append("\n\n");
 		return st.toString();
 	}

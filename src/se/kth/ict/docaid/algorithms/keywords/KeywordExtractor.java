@@ -2,10 +2,10 @@ package se.kth.ict.docaid.algorithms.keywords;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
 import org.apache.lucene.analysis.ASCIIFoldingFilter;
@@ -19,6 +19,8 @@ import org.apache.lucene.analysis.standard.ClassicTokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.util.Version;
 
+import se.kth.ict.docaid.filters.MyStopwords;
+
 /**
  * Guesses keywords from an input string, based on the frequency of the words.
  * 
@@ -26,6 +28,7 @@ import org.apache.lucene.util.Version;
  */
 public class KeywordExtractor {
 
+	private static final Integer MIN_FREQUENCY = 1;
 	/** Lucene version. */
 	private static Version LUCENE_VERSION = Version.LUCENE_35;
 
@@ -91,7 +94,7 @@ public class KeywordExtractor {
 	 * @return A set of potential keywords. The first keyword is the most frequent one, the last the least frequent.
 	 * @throws IOException If an I/O error occured.
 	 */
-	public static LinkedList<Keyword> guessFromString(String input) throws IOException {
+	public static ArrayList<Keyword> guessFromString(String input, MyStopwords stopwords) throws IOException {
 
 		// hack to keep dashed words (e.g. "non-specific" rather than "non" and "specific")
 		input = input.replaceAll("-+", "-0");
@@ -111,7 +114,7 @@ public class KeywordExtractor {
 		// remove english stop words
 		tokenStream = new StopFilter(LUCENE_VERSION, tokenStream, EnglishAnalyzer.getDefaultStopSet());
 
-		LinkedList<Keyword> keywords = new LinkedList<Keyword>();
+		ArrayList<Keyword> keywords = new ArrayList<Keyword>();
 		CharTermAttribute token = tokenStream.getAttribute(CharTermAttribute.class);
 
 		// for each token
@@ -130,7 +133,51 @@ public class KeywordExtractor {
 		// reverse sort by frequency
 		Collections.sort(keywords);
 		tokenStream.close();
+		
+		filterWords(keywords, stopwords);
+		
 		return keywords;
 	}
 
+	
+	
+	private static void filterWords(ArrayList<Keyword> keywords, MyStopwords stopwords) {
+		filterStopWords(keywords, stopwords.getStopwordsSv(), stopwords.getStopwordsEn(), stopwords.getStopwordsCourse());
+		filterNonFrequent(keywords);
+		filterWordsThatContainNumbers(keywords);
+	}
+	
+	private static void filterWordsThatContainNumbers(ArrayList<Keyword> keywords) {
+		final String regex = "((\\w)*(\\d)+)((\\w)*(\\d)*)*"; // should contain at least one number
+		ArrayList<Keyword> toRemove = new ArrayList<Keyword>();
+		for(Keyword keyword: keywords) {
+			if(keyword.getStem().matches(regex)) {
+				toRemove.add(keyword);
+			}
+		}
+		for(Keyword keyword: toRemove)
+			keywords.remove(keyword);
+	}
+	
+	private static void filterNonFrequent(ArrayList<Keyword> keywords) {
+		ArrayList<Keyword> toRemove = new ArrayList<Keyword>();
+		for(Keyword keyword: keywords) {
+			if(keyword.getFrequency() <= MIN_FREQUENCY || keyword.getStem().length() < 2) {
+				toRemove.add(keyword);
+			}
+		}
+		for(Keyword keyword: toRemove)
+			keywords.remove(keyword);
+	}
+
+	private static void filterStopWords(ArrayList<Keyword> keywords, HashSet<String> stopwordsEn, HashSet<String> stopwordsSv, HashSet<String> stopwordsCourse) {
+		ArrayList<Keyword> toRemove = new ArrayList<Keyword>();
+		for(Keyword keyword: keywords) {
+			if(stopwordsEn.contains(keyword.getStem()) || stopwordsSv.contains(keyword.getStem()) || stopwordsCourse.contains(keyword.getStem()))
+				toRemove.add(keyword);
+		}
+		for(Keyword keyword: toRemove) {
+			keywords.remove(keyword);
+		}
+	}
 }

@@ -15,6 +15,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import se.kth.ict.docaid.filters.MyStopwords;
+
 public class CourseCodeParser {
 	private static String courseListURI = "http://www.kth.se/api/kopps/v1/courseRounds/";
 	private static String coursePageURI = "http://www.kth.se/api/kopps/v1/course/";
@@ -212,6 +214,7 @@ public class CourseCodeParser {
 
 	public static void main(String argv[]) {
 		try {
+			MyStopwords stopwords = new MyStopwords();
 			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			Document doc = dBuilder.parse(courseListURI + "2014:2");
 
@@ -225,6 +228,7 @@ public class CourseCodeParser {
 				if (c == 20)
 					break;
 				updateCourseContent(course);
+				CoursePageExtractor.updateCourseInfo(course, stopwords);
 				System.out.println(course.toString());
 				c++;
 			}

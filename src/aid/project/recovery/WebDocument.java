@@ -9,22 +9,23 @@ public class WebDocument {
 	String title;
 	String body;
 	String url;
-	
+
 	/**
-	 * Create a WebDocument from a website that contains a title and a body 
-	 * @param url A String that represents the url of the website that stores the course directory, i.e., http://www.kth.se/student/kurser/kurs/ID2216?startterm=20131&l=en
+	 * Create a WebDocument from a website that contains a title and a body
+	 * 
+	 * @param url A String that represents the url of the website that stores the course directory, i.e.,
+	 *            http://www.kth.se/student/kurser/kurs/ID2216?startterm=20131&l=en
 	 */
-	public WebDocument(final String url){
+	public WebDocument(final String url) {
 		this.url = url;
 		Thread t = new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				generateContent(url);
-				//getKeywords();
 			}
-			
+
 		});
 		t.start();
 		try {
@@ -34,14 +35,15 @@ public class WebDocument {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}
+
 	public String getBody() {
 		return body;
 	}
-	
+
 	private void setTitle(String title) {
 		this.title = title;
 	}
@@ -50,7 +52,7 @@ public class WebDocument {
 		this.body = body;
 	}
 
-	private void generateContent(String url){
+	private void generateContent(String url) {
 		@SuppressWarnings("static-access")
 		ReadabilityContentExtractor extractor = UtilClass.getInstance().getExtractor();
 		try {
@@ -68,9 +70,7 @@ public class WebDocument {
 	 */
 	@Override
 	public String toString() {
-		return "WebDocument [url=" + url + ", title=" + title + ", body="
-				+ body + "]";
+		return "WebDocument [url=" + url + ", title=" + title + ", body=" + body + "]";
 	}
-	
-	
+
 }
