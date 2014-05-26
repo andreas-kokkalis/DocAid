@@ -9,13 +9,9 @@ import org.apache.tika.exception.TikaException;
 import org.jsoup.Jsoup;
 import org.xml.sax.SAXException;
 
-import se.kth.ict.docaid.algorithms.acronyms.Acronym;
-import se.kth.ict.docaid.algorithms.acronyms.AcronymDetector;
-import se.kth.ict.docaid.algorithms.keywords.KeywordExtractor;
-import se.kth.ict.docaid.reader.WebReader;
 import aid.project.recovery.InputDocument;
-import aid.project.recovery.WebDocument;
 import aid.project.utils.UtilClass;
+import se.kth.ict.docaid.algorithms.acronyms.AcronymDetector;
 
 public class Executor {
 

@@ -2,7 +2,7 @@ package se.kth.ict.docaid.course;
 
 public class Course {
 	private String code;
-	private String round;
+	private int round;
 	
 	private boolean isCancelled; 
 	private String titleEn;
@@ -148,12 +148,39 @@ public class Course {
 		this.code = code;
 	}
 
-	public String getRound() {
+	public int getRound() {
 		return round;
 	}
 
-	public void setRound(String round) {
+	public void setRound(int round) {
 		this.round = round;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder st = new StringBuilder();
+		st.append("\n-------------------------------------------------").append("\n");
+		st.append("Course:\t" + titleEn + "\tcode:\t" + code).append("\n");
+		st.append("-------------------------------------------------").append("\n");
+		st.append("code:").append("\t\t\t").append(code).append("\n");
+		st.append("round:").append("\t\t\t").append(round).append("\n");
+		st.append("canceled:").append("\t\t").append(isCancelled).append("\n");
+		st.append("Title En:").append("\t\t").append(titleEn).append("\n");
+		st.append("Title Sv:").append("\t\t").append(titleSv).append("\n");
+		st.append("Credits:").append("\t\t").append(credits).append("\n");
+		st.append("Educational level:").append("\t").append(educationLevel).append("\n");
+		st.append("Academic level code:").append("\t").append(academicLevelCode).append("\n");
+		st.append("Subject code:").append("\t\t").append(subjectCode).append("\n");
+		st.append("Subject:").append("\t\t").append(subject).append("\n");
+		st.append("Grade scale code:").append("\t").append(gradeScaleCode).append("\n");
+		st.append("Department code:").append("\t").append(departmentCode).append("\n");
+		st.append("Department:").append("\t\t").append(department).append("\n");
+		st.append("Contact Name:").append("\t\t").append(contactName).append("\n");
+		st.append("Recruitement text En:").append("\t").append(recruitmentTextEn).append("\n");
+		st.append("Recruitement text Sv:").append("\t").append(recruitmentTextSv).append("\n");
+		st.append("URL:").append("\t\t\t").append(courseURL).append("\n");
+		st.append("-------------------------------------------------").append("\n\n");
+		return st.toString();
+	}
+	
 }

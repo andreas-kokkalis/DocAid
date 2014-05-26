@@ -23,7 +23,6 @@ public class Reader {
 		try {
 			setKeywords(KeywordExtractor.guessFromString(content));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		setKeyPhrases(new ArrayList<String>());
