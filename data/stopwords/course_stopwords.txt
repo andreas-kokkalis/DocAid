@@ -1,0 +1,16 @@
+course
+code
+period
+lecture
+study
+schedule
+teacher
+student
+exam
+elective
+cancel
+kth
+isbn
+textbook
+campus
+
