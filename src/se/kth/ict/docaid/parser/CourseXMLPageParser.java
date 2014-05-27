@@ -1,4 +1,4 @@
-package se.kth.ict.docaid.course;
+package se.kth.ict.docaid.parser;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,9 +15,17 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import se.kth.ict.docaid.filters.MyStopwords;
+import se.kth.ict.docaid.course.Course;
 
-public class CourseCodeParser {
+/**
+ * The KTH API allows retrieving the course catalog and information for a given course in XML format. This parser reads the course catalog and creates a HashMap of
+ * courses. Also for a given course it reads its' XML page using the API and updates the course's content.
+ * 
+ * @author andrew
+ * 
+ */
+public class CourseXMLPageParser {
+	@SuppressWarnings("unused")
 	private static String courseListURI = "http://www.kth.se/api/kopps/v1/courseRounds/";
 	private static String coursePageURI = "http://www.kth.se/api/kopps/v1/course/";
 
@@ -28,7 +36,7 @@ public class CourseCodeParser {
 	 * @param doc The document for from which the course list is extracted.
 	 * @return A hash map with key the string code of the course, and value an instance of the class Course.
 	 */
-	private static HashMap<String, Course> retrieveCourseCodes(Document doc) {
+	public static HashMap<String, Course> retrieveCourseCodes(Document doc) {
 		HashMap<String, Course> courses = new HashMap<String, Course>();
 		doc.getDocumentElement().normalize();
 		NodeList nList = doc.getElementsByTagName("courseRound");
@@ -55,7 +63,7 @@ public class CourseCodeParser {
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	private static void updateCourseContent(Course course) throws ParserConfigurationException, SAXException, IOException {
+	public static void updateCourseContent(Course course) throws ParserConfigurationException, SAXException, IOException {
 		// If the KTH API changes the function should also change
 		String uri = constructCourseURI(course.getCode());
 
@@ -210,36 +218,5 @@ public class CourseCodeParser {
 			}
 		}
 		return;
-	}
-
-	public static void main(String argv[]) {
-		try {
-			MyStopwords stopwords = new MyStopwords();
-			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			Document doc = dBuilder.parse(courseListURI + "2014:2");
-
-			HashMap<String, Course> courses = retrieveCourseCodes(doc);
-			Document doc1 = dBuilder.parse(courseListURI + "2014:1");
-			HashMap<String, Course> courses1 = retrieveCourseCodes(doc1);
-			courses.putAll(courses1);
-
-			int c = 0;
-			for (Course course : courses.values()) {
-				if (c == 20)
-					break;
-				updateCourseContent(course);
-				CoursePageExtractor.updateCourseInfo(course, stopwords);
-				System.out.println(course.toString());
-				c++;
-			}
-
-			// Course course = courses.get("AG2425");
-			// updateCourseContent(course);
-			// System.out.println(course.toString());
-
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
 	}
 }

@@ -4,28 +4,84 @@ import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
 import se.kth.ict.docaid.reader.WebReader;
 
+/**
+ * The class holds information about a course. It contains all information extracted from the XML web page of the course, along with an instance of the class reader. The
+ * reader contains extracted keywords, keyphrases and abbreviations from the hope page of the course.
+ * 
+ * @author andrew
+ * 
+ */
 public class Course {
-	private String code;
-	private int round;
-	
-	private boolean isCancelled; 
-	private String titleEn;
-	private String titleSv; 
-	private int credits; 
-	private String educationLevel;	
-	private String academicLevelCode;
+	/**
+	 * Course code. Used to identify the course and construct unique urls.
+	 */
+	private String code; 
+	/**
+	 * // The course round.
+	 */
+	private int round;  //TODO: what is this?
+	/**
+	 * If course is cancelled value is true.
+	 */
+	private boolean isCancelled;
+	/**
+	 * The course title in English.
+	 */
+	private String titleEn; 
+	/**
+	 * The course title in Swedish.
+	 */
+	private String titleSv;  
+	/**
+	 * The credits of the course multiplied by 10.
+	 */
+	private int credits;
+	/**
+	 * Cycle bachelor 1 master2
+	 */
+	private String educationLevel; 
+	private String academicLevelCode; 
+	/**
+	 * Identifies the course subject uniquely.
+	 */
 	private String subjectCode; 
+	/**
+	 * Text representation of the course subject.
+	 */
 	private String subject; 
+	/**
+	 * A-F or pass fail or numeric.
+	 */
 	private String gradeScaleCode; 
-	private String departmentCode;
+	/**
+	 * Identifies the department that offers the course uniquely.
+	 */
+	private String departmentCode; 
+	/**
+	 * Department name.
+	 */
 	private String department; 
+	/**
+	 * Course responsible contact information
+	 */
 	private String contactName; 
-	private String recruitmentTextEn;
+	/**
+	 * Description of the course content in English
+	 */
+	private String recruitmentTextEn; 
+	/**
+	 * Description of the course content in Swedish.
+	 */
 	private String recruitmentTextSv; 
-	private String courseURL;
-	
+	/**
+	 * Additional url of the course.
+	 */
+	private String courseURL; 
+	/**
+	 * abbreviations, keywords, keyphrases
+	 */
 	private WebReader reader;
-	
+
 	public boolean isCancelled() {
 		return isCancelled;
 	}
@@ -194,13 +250,13 @@ public class Course {
 		st.append("Recruitement text Sv:").append("\t").append(recruitmentTextSv).append("\n");
 		st.append("URL:").append("\t\t\t").append(courseURL).append("\n");
 		st.append("Keywords: ").append("\n");
-		for(Keyword keyword: reader.getKeywords())
+		for (Keyword keyword : reader.getKeywords())
 			st.append(keyword.toString()).append("\n");
 		st.append("Keyphrases: ").append("\n");
-		for(Keyphrase keyphrase: reader.getKeyphrases())
+		for (Keyphrase keyphrase : reader.getKeyphrases())
 			st.append(keyphrase.toString()).append("\n");
 		st.append("-------------------------------------------------").append("\n\n");
 		return st.toString();
 	}
-	
+
 }

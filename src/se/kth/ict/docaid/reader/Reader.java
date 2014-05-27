@@ -11,7 +11,6 @@ import se.kth.ict.docaid.algorithms.keyphrases.KeyphraseExtractor;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
 import se.kth.ict.docaid.algorithms.keywords.KeywordExtractor;
 import se.kth.ict.docaid.exceptions.InvalidTextLengthException;
-import se.kth.ict.docaid.filters.MyStopwords;
 
 /**
  * @author andrew
@@ -26,10 +25,10 @@ public class Reader {
 	private ArrayList<String> wordList;
 	private HashMap<String, String> translatedWordList;
 
-	public Reader(String content, MyStopwords stopwords) {
+	public Reader(String content) {
 		this.content = content;
 		try {
-			setKeywords(KeywordExtractor.guessFromString(content, stopwords));
+			setKeywords(KeywordExtractor.guessFromString(content));
 			setKeyphrases(KeyphraseExtractor.getKeyphrases(content));
 			setAcronyms(AcronymDetector.detectAcronyms(content));
 		} catch (IOException e) {

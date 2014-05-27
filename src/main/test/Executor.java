@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
-import se.kth.ict.docaid.filters.MyStopwords;
+import se.kth.ict.docaid.filters.StopwordDictionairy;
 import se.kth.ict.docaid.reader.WebReader;
 import aid.project.recovery.WebDocument;
 
@@ -49,8 +49,8 @@ public class Executor {
 		System.out.println("\n\n=========================================================\n=========================================================");
 		String url = "http://www.kth.se/student/kurser/kurs/ID2216?startterm=20131&l=en";
 		WebDocument doc = new WebDocument(url);
-		MyStopwords stopwords = new MyStopwords();
-		WebReader reader = new WebReader(doc, stopwords);
+		StopwordDictionairy stopwords = new StopwordDictionairy();
+		WebReader reader = new WebReader(doc);
 		@SuppressWarnings("unused")
 		ArrayList<Keyword> keywords = reader.getKeywords();
 		ArrayList<Keyphrase> keyphrases = reader.getKeyphrases();
