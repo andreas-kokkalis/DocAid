@@ -14,7 +14,7 @@ import weka.core.Instance;
  *
  */
 public class KeyphraseExtractor {
-	private static final int MAX_TOPICS = 20;
+	private static final int MAX_TOPICS = 10;
 	
 	/**
 	 * Extracts the topics using maui-indexer and then formats them in keyphrases.

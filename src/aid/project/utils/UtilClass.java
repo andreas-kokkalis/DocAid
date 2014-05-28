@@ -24,8 +24,8 @@ import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import se.kth.ict.docaid.documents.InputDocument;
 import ws.palladian.preprocessing.scraping.ReadabilityContentExtractor;
-import aid.project.recovery.InputDocument;
 
 /**
  * Static class that contains the generic tools. Implemented as singleton to avoid multi-initialization of objects.

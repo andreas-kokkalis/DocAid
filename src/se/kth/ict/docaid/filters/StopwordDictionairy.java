@@ -1,4 +1,4 @@
-package se.kth.ict.docaid.filters;
+package se.kth.ict.docaid.filters; 
 
 import java.io.BufferedReader;
 import java.io.File;

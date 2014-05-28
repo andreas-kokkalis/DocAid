@@ -1,4 +1,4 @@
-package aid.project.recovery;
+package se.kth.ict.docaid.documents;
 
 import ws.palladian.preprocessing.scraping.PageContentExtractorException;
 import ws.palladian.preprocessing.scraping.ReadabilityContentExtractor;

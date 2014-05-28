@@ -6,8 +6,7 @@ public class Acronym {
 	boolean isSpelledOut;
 	boolean isSpelledOnFirstCheck;
 
-	public Acronym(String acronym, String[] spelledOut, boolean isSpelledOut,
-			boolean isSpelledOnFirstCheck) {
+	public Acronym(String acronym, String[] spelledOut, boolean isSpelledOut, boolean isSpelledOnFirstCheck) {
 		super();
 		this.acronym = acronym;
 		this.spelledOut = spelledOut;
@@ -46,18 +45,29 @@ public class Acronym {
 		this.isSpelledOut = isSpelledOut;
 	}
 
+	public String spelloutString() {
+		String st = "";
+
+		if (spelledOut != null)
+			for (String s : spelledOut)
+				st = st + " " + s;
+		else
+			st = "not spelled out";
+		return st;
+	}
+
 	@Override
 	public String toString() {
-		
+
 		String objs = "";
-		
-		if (spelledOut!=null)
-		for (String s :spelledOut) objs = objs +" "+s;
-		else objs = "not spelled out";
-		
-		return "Acronym [acronym=" + acronym + ", spelledOut=" + objs
-				+ ", isSpelledOut=" + isSpelledOut + ", isSpelledOnFirstCheck="
-				+ isSpelledOnFirstCheck + "]";
+
+		if (spelledOut != null)
+			for (String s : spelledOut)
+				objs = objs + " " + s;
+		else
+			objs = "not spelled out";
+
+		return "Acronym [acronym=" + acronym + ", spelledOut=" + objs + ", isSpelledOut=" + isSpelledOut + ", isSpelledOnFirstCheck=" + isSpelledOnFirstCheck + "]";
 	}
 
 	public boolean isSpelledOnFirstCheck() {

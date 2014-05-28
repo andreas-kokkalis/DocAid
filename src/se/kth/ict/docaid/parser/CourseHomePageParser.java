@@ -1,11 +1,14 @@
 package se.kth.ict.docaid.parser;
 
+import me.champeau.ld.UberLanguageDetector;
+import se.kth.ict.docaid.algorithms.keywords.Keyword;
 import se.kth.ict.docaid.course.Course;
+import se.kth.ict.docaid.documents.WebDocument;
 import se.kth.ict.docaid.filters.KeyphraseFilterer;
 import se.kth.ict.docaid.filters.KeywordFilterer;
 import se.kth.ict.docaid.filters.StopwordDictionairy;
+import se.kth.ict.docaid.reader.Reader;
 import se.kth.ict.docaid.reader.WebReader;
-import aid.project.recovery.WebDocument;
 
 /**
  * Parses a course home page to retrieve data such as keywords, keyphrases and acronyms.
@@ -28,8 +31,26 @@ public class CourseHomePageParser {
 		
 		WebDocument doc = new WebDocument(url);
 		course.setReader(new WebReader(doc));
+		UberLanguageDetector detector = UberLanguageDetector.getInstance();
+		String language = detector.detectLang(course.getReader().getContent());
+		course.setLanguage(language);
 		KeywordFilterer.filterKeywords(course.getReader().getKeywords(), stopwords);
 		KeyphraseFilterer.filterKeyphrases(course.getReader().getKeyphrases(), stopwords);
+		
+		// Read the recruitment text if exists.
+		if(course.getRecruitmentTextEn() != null && !course.getRecruitmentTextEn().equals("") && !course.getRecruitmentTextEn().isEmpty()) {
+			Reader readerEn = new Reader(course.getRecruitmentTextEn(), true, false, true);
+			KeywordFilterer.filterKeywords(readerEn.getKeywords(), stopwords);
+			KeyphraseFilterer.filterKeyphrases(readerEn.getKeyphrases(), stopwords);
+			course.setXmlReader(readerEn);
+			for(Keyword keyword: course.getXmlReader().getKeywords()) {
+				if(!course.getReader().containsKeyword(keyword.getStem())) { 
+					course.getReader().getKeywords().add(keyword);
+					System.out.println("Added\t" + keyword.getStem());
+				}
+			}
+		}
+		
 	}
 	
 	/**

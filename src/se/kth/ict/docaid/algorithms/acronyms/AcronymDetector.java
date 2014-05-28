@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 /**
  * @author adrian, andrew
- * 
+ *  
  */
 public class AcronymDetector {
 	private static HashMap<String, Boolean> acronymCheck = new HashMap<String, Boolean>();
@@ -85,8 +85,10 @@ public class AcronymDetector {
 	 * @param text
 	 * @return
 	 */
-	public static LinkedList<Acronym> checkAcronymsOnSight(LinkedList<String> listOfAcronyms, String text) {
+	public static LinkedList<Acronym> checkAcronymsOnSight(String text) {
 
+		LinkedList<String> listOfAcronyms = detectAcronyms(text);
+		
 		LinkedList<Acronym> checkedAcronyms = new LinkedList<Acronym>();
 
 		text = text.replaceAll("\n", " ").replaceAll("\r", " ").replaceAll(",", " ").replaceAll(":", " ").replaceAll(";", " ").replaceAll("\\(", " ").replaceAll("\\)", " ").replaceAll("-", " ");

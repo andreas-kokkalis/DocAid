@@ -1,4 +1,4 @@
-package aid.project.recovery;
+package se.kth.ict.docaid.documents;
 
 public class InputDocument {
 

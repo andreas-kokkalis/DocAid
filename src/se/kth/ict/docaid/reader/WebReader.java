@@ -1,6 +1,6 @@
 package se.kth.ict.docaid.reader;
 
-import aid.project.recovery.WebDocument;
+import se.kth.ict.docaid.documents.WebDocument;
 
 public class WebReader extends Reader {
 	@SuppressWarnings("unused")
@@ -10,6 +10,4 @@ public class WebReader extends Reader {
 		super(webDocument.getBody());
 		this.webDocument = webDocument;
 	}
-	
-	
 }

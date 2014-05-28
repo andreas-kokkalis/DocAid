@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
+import se.kth.ict.docaid.documents.WebDocument;
 import se.kth.ict.docaid.filters.StopwordDictionairy;
 import se.kth.ict.docaid.reader.WebReader;
-import aid.project.recovery.WebDocument;
 
 public class Executor {
 

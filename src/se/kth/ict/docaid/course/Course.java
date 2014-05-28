@@ -2,6 +2,7 @@ package se.kth.ict.docaid.course;
 
 import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
+import se.kth.ict.docaid.reader.Reader;
 import se.kth.ict.docaid.reader.WebReader;
 
 /**
@@ -15,11 +16,11 @@ public class Course {
 	/**
 	 * Course code. Used to identify the course and construct unique urls.
 	 */
-	private String code; 
+	private String code;
 	/**
 	 * // The course round.
 	 */
-	private int round;  //TODO: what is this?
+	private int round; // TODO: what is this?
 	/**
 	 * If course is cancelled value is true.
 	 */
@@ -27,11 +28,11 @@ public class Course {
 	/**
 	 * The course title in English.
 	 */
-	private String titleEn; 
+	private String titleEn;
 	/**
 	 * The course title in Swedish.
 	 */
-	private String titleSv;  
+	private String titleSv;
 	/**
 	 * The credits of the course multiplied by 10.
 	 */
@@ -39,48 +40,58 @@ public class Course {
 	/**
 	 * Cycle bachelor 1 master2
 	 */
-	private String educationLevel; 
-	private String academicLevelCode; 
+	private String educationLevel;
+	private String academicLevelCode;
 	/**
 	 * Identifies the course subject uniquely.
 	 */
-	private String subjectCode; 
+	private String subjectCode;
 	/**
 	 * Text representation of the course subject.
 	 */
-	private String subject; 
+	private String subject;
 	/**
 	 * A-F or pass fail or numeric.
 	 */
-	private String gradeScaleCode; 
+	private String gradeScaleCode;
 	/**
 	 * Identifies the department that offers the course uniquely.
 	 */
-	private String departmentCode; 
+	private String departmentCode;
 	/**
 	 * Department name.
 	 */
-	private String department; 
+	private String department;
 	/**
 	 * Course responsible contact information
 	 */
-	private String contactName; 
+	private String contactName;
 	/**
 	 * Description of the course content in English
 	 */
-	private String recruitmentTextEn; 
+	private String recruitmentTextEn;
 	/**
 	 * Description of the course content in Swedish.
 	 */
-	private String recruitmentTextSv; 
+	private String recruitmentTextSv;
 	/**
 	 * Additional url of the course.
 	 */
-	private String courseURL; 
+	private String courseURL;
 	/**
 	 * abbreviations, keywords, keyphrases
 	 */
 	private WebReader reader;
+
+	/**
+	 * It is used to load data from the recruitmentTextEn text.
+	 */
+	private Reader xmlReader;
+
+	/**
+	 * Language of course
+	 */
+	private String language;
 
 	public boolean isCancelled() {
 		return isCancelled;
@@ -226,11 +237,42 @@ public class Course {
 		this.reader = reader;
 	}
 
+	public Reader getXmlReader() {
+		return xmlReader;
+	}
+
+	public void setXmlReader(Reader xmlReader) {
+		this.xmlReader = xmlReader;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String termsToString(Keyword keyword) {
+		StringBuilder st = new StringBuilder();
+		for(String string: keyword.getTerms())
+			st.append(string).append(" ");
+		return st.toString();
+	}
+	
+
+	public String phraseWordsToString(Keyphrase phrase) {
+		StringBuilder st = new StringBuilder();
+		for(String string: phrase.getPhraseWords())
+			st.append(string).append(" ");
+		return st.toString();
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder st = new StringBuilder();
 		st.append("\n-------------------------------------------------").append("\n");
-		st.append("Course:\t" + titleEn + "\tcode:\t" + code).append("\n");
+		st.append("Course:\t" + titleEn + "\tcode:\t" + code + "\tLanguage:\t" + language).append("\n");
 		st.append("-------------------------------------------------").append("\n");
 		st.append("code:").append("\t\t\t").append(code).append("\n");
 		st.append("round:").append("\t\t\t").append(round).append("\n");
@@ -258,5 +300,6 @@ public class Course {
 		st.append("-------------------------------------------------").append("\n\n");
 		return st.toString();
 	}
+
 
 }
