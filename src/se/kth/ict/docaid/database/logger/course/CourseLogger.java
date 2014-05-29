@@ -11,10 +11,16 @@ import se.kth.ict.docaid.algorithms.acronyms.Acronym;
 import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
 import se.kth.ict.docaid.course.Course;
+import se.kth.ict.docaid.database.CourseFetch;
 import se.kth.ict.docaid.database.DatabaseConnection;
 
 public class CourseLogger {
 
+	/**
+	 * Store all data relevant to a course in the database.
+	 * 
+	 * @param courses The list of courses for which the data are stored.
+	 */
 	public static void storeCourseInfo(HashMap<String, Course> courses) {
 		DatabaseConnection databaseConnection = new DatabaseConnection();
 		Connection connection = databaseConnection.getConnection();
@@ -23,19 +29,19 @@ public class CourseLogger {
 	}
 
 	/**
-	 * @param courses
-	 * @param connection
+	 * Store the data for a list of courses as extracted form their corresponding XML pages using the KTH API.
+	 * 
+	 * @param courses The list of courses for which the data are stored.
+	 * @param connection The sql connection
 	 */
 	private static void storeCourseXMLData(HashMap<String, Course> courses, Connection connection) {
 		String storeCourseXML = "INSERT INTO course (code, " + "academicLevelCode, " + "contactName, " + "courseURL, " + "credits, " + "department, " + "departmentCode, " + "educationLevel, " + "gradeScaleCode, " + "isCanceled, "
-				+ "recruitmentTextSv, " + "recruitmentTextEn, " + "round_, " + "subject, " + "subjectCode, " + "titleEn, " + "titleSv)" + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "recruitmentTextSv, " + "recruitmentTextEn, " + "round_, " + "subject, " + "subjectCode, " + "titleEn, " + "titleSv, "+ "lang"+")" + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
-			
-			
 			PreparedStatement st = connection.prepareCall(storeCourseXML);
 			connection.setAutoCommit(false);
 			for (Course course : courses.values()) {
-				if(courseExists(course.getCode(), connection))
+				if(CourseFetch.courseExists(course.getCode(), connection))
 					continue;
 				st.setString(1, course.getCode());
 				st.setString(2, course.getAcademicLevelCode());
@@ -54,6 +60,7 @@ public class CourseLogger {
 				st.setString(15, course.getSubjectCode());
 				st.setString(16, course.getTitleEn());
 				st.setString(17, course.getTitleSv());
+				st.setString(18, course.getLanguage());
 				st.addBatch();
 			}
 			st.executeBatch();
@@ -69,61 +76,70 @@ public class CourseLogger {
 	}
 
 	/**
-	 * @param courses
-	 * @param connection
+	 * Stores the keywords, keyphrases, acronyms for a given list of courses.
+	 * 
+	 * @param courses The list of courses for which keywords, keyphrases, acronyms are stored.
+	 * @param connection The sql connection
 	 */
 	private static void storeCourseExtractedData(HashMap<String, Course> courses, Connection connection) {
-		try {
 
+		try {
+			connection.setAutoCommit(true);
 			for (Course course : courses.values()) {
 				for (Keyword keyword : course.getReader().getKeywords()) {
 					// Check if the stem exists and if it's true get its id
-					int id = stemExists(keyword.getStem(), connection);
+					int id = CourseFetch.stemExists(keyword.getStem(), connection);
 					if (id == 0) {
 						// Insert the stem and retrieve it's id
-						String insert = "INSERT INTO keywords (stem) VALUES (?)";
+						String insert = "INSERT INTO keywords (stem, frequency) VALUES (?, ?)";
 						PreparedStatement st = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 						st.setString(1, keyword.getStem());
+						st.setInt(2, keyword.getFrequency());
 						st.executeUpdate();
 						ResultSet rs = st.getGeneratedKeys();
 						if (rs.next()) {
 							id = rs.getInt(1);
 						}
 					}
-					// Insert the stem in the database.
-					String insert = "INSERT INTO keyword_ref (kid, code, terms) VALUES (?,?,?)";
-					PreparedStatement st = connection.prepareStatement(insert);
-					st.setInt(1, id);
-					st.setString(2, course.getCode());
-					st.setString(3, course.termsToString(keyword));
-					st.executeUpdate();
-					st.close();
+					if(CourseFetch.keywordRefExists(id, course.getCode(), connection) == 0) {
+						// Insert the stem in the database.
+						String insert = "INSERT INTO keyword_ref (kid, code, terms) VALUES (?,?,?)";
+						PreparedStatement st = connection.prepareStatement(insert);
+						st.setInt(1, id);
+						st.setString(2, course.getCode());
+						st.setString(3, course.termsToString(keyword));
+						st.executeUpdate();
+						st.close();
+					}
 				}
 				for (Keyphrase keyphrase : course.getReader().getKeyphrases()) {
 					// Check if the stem keyphrase and if it's true get its id
-					int id = phraseExists(keyphrase.getPhrase(), connection);
+					int id = CourseFetch.phraseExists(keyphrase.getPhrase(), connection);
 					if (id == 0) {
 						// Insert the keyphrase and retrieve it's id
-						String insert = "INSERT INTO keyphrases (phrase, phrase_words) VALUES (?, ?)";
+						String insert = "INSERT INTO keyphrases (phrase, stems, factor) VALUES (?, ?, ?)";
 						PreparedStatement st = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
 						st.setString(1, keyphrase.getPhrase());
-						st.setString(2, course.phraseWordsToString(keyphrase));
+						st.setString(2, keyphrase.phraseStemsToString());
+						st.setDouble(3, keyphrase.getFactor());
 						st.executeUpdate();
 						ResultSet rs = st.getGeneratedKeys();
 						if (rs.next()) {
 							id = rs.getInt(1);
 						}
 					}
-					// Insert the keyphrase reference in the database.
-					String insert = "INSERT INTO keyphrase_ref (kid, code) VALUES (?,?)";
-					PreparedStatement st = connection.prepareStatement(insert);
-					st.setInt(1, id);
-					st.setString(2, course.getCode());
-					st.executeUpdate();
+					if(CourseFetch.keyphraseRefExists(id, course.getCode(), connection) == 0) {
+						// Insert the keyphrase reference in the database.
+						String insert = "INSERT INTO keyphrase_ref (kid, code) VALUES (?,?)";
+						PreparedStatement st = connection.prepareStatement(insert);
+						st.setInt(1, id);
+						st.setString(2, course.getCode());
+						st.executeUpdate();
+					}
 				}
 				for (Acronym acronym : course.getReader().getAcronyms()) {
 					// Check if the acronym exists and if it's true get its id
-					int id = acronymExists(acronym.getAcronym(), connection);
+					int id = CourseFetch.acronymExists(acronym.getAcronym(), connection);
 					if (id == 0) {
 						// Insert the acronym and retrieve it's id
 						String insert = "INSERT INTO acronyms (acron, description) VALUES (?, ?)";
@@ -136,12 +152,14 @@ public class CourseLogger {
 							id = rs.getInt(1);
 						}
 					}
-					// Insert the acronym reference in the database.
-					String insert = "INSERT INTO acronym_ref (aid, code) VALUES (?,?)";
-					PreparedStatement st = connection.prepareStatement(insert);
-					st.setInt(1, id);
-					st.setString(2, course.getCode());
-					st.executeUpdate();
+					if(CourseFetch.acronymRefExists(id, course.getCode(), connection) == 0) {
+						// Insert the acronym reference in the database.
+						String insert = "INSERT INTO acronym_ref (aid, code) VALUES (?,?)";
+						PreparedStatement st = connection.prepareStatement(insert);
+						st.setInt(1, id);
+						st.setString(2, course.getCode());
+						st.executeUpdate();
+					}
 				}
 			}
 		} catch (SQLException e) {
@@ -149,99 +167,4 @@ public class CourseLogger {
 		}
 
 	}
-
-	/**
-	 * @param stem
-	 * @param connection
-	 * @return
-	 */
-	private static int stemExists(String stem, Connection connection) {
-		String select = "SELECT kid FROM keywords WHERE stem=?";
-		int id = 0;
-		try {
-			PreparedStatement st = connection.prepareStatement(select, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			st.setString(1, stem);
-			ResultSet results = st.executeQuery();
-			results.last();
-			if (results.getRow() == 0) {
-				return 0;
-			}
-			results.beforeFirst();
-			results.next();
-			id = results.getInt(1);
-			st.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return id;
-	}
-
-	/**
-	 * @param phrase
-	 * @param connection
-	 * @return
-	 */
-	private static int phraseExists(String phrase, Connection connection) {
-		String select = "SELECT kid FROM keyphrases WHERE phrase=?";
-		int id = 0;
-		try {
-			PreparedStatement st = connection.prepareStatement(select, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			st.setString(1, phrase);
-			ResultSet results = st.executeQuery();
-			results.last();
-			if (results.getRow() == 0) {
-				return 0;
-			}
-			results.beforeFirst();
-			results.next();
-			id = results.getInt(1);
-			st.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return id;
-	}
-
-	/**
-	 * @param acronym
-	 * @param connection
-	 * @return
-	 */
-	private static int acronymExists(String acronym, Connection connection) {
-		String select = "SELECT aid FROM acronyms WHERE acron=?";
-		int id = 0;
-		try {
-			PreparedStatement st = connection.prepareStatement(select, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			st.setString(1, acronym);
-			ResultSet results = st.executeQuery();
-			results.last();
-			if (results.getRow() == 0) {
-				return 0;
-			}
-			results.beforeFirst();
-			results.next();
-			id = results.getInt(1);
-			st.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return id;
-	}
-
-	private static boolean courseExists(String courseCode, Connection connection) {
-		String select = "SELECT s.code FROM course s where s.code = ?";
-		try {
-			PreparedStatement st = connection.prepareStatement(select, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			st.setString(1, courseCode);
-			ResultSet results = st.executeQuery();
-			results.last();
-			if (results.getRow() > 0) {
-				return true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
 }

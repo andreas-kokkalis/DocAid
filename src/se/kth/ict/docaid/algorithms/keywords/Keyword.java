@@ -28,6 +28,12 @@ public class Keyword implements Comparable<Keyword> {
 		frequency = 0;
 	}
 
+	public Keyword(String stem, int frequency, Set<String> terms) {
+		this.stem = stem;
+		this.frequency = frequency;
+		this.terms = terms;
+	}
+	
 	/**
 	 * Add a found corresponding term for this stem. If this term has been already found, it won't be duplicated but the stem frequency will still be incremented.
 	 * 

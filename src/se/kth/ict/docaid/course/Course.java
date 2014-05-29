@@ -1,8 +1,10 @@
 package se.kth.ict.docaid.course;
 
+import java.util.ArrayList;
+
+import se.kth.ict.docaid.algorithms.acronyms.Acronym;
 import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
-import se.kth.ict.docaid.reader.Reader;
 import se.kth.ict.docaid.reader.WebReader;
 
 /**
@@ -84,14 +86,13 @@ public class Course {
 	private WebReader reader;
 
 	/**
-	 * It is used to load data from the recruitmentTextEn text.
-	 */
-	private Reader xmlReader;
-
-	/**
 	 * Language of course
 	 */
 	private String language;
+
+	private ArrayList<Keyword> keywords;
+	private ArrayList<Keyphrase> keyphrases;
+	private ArrayList<Acronym> acronyms;
 
 	public boolean isCancelled() {
 		return isCancelled;
@@ -237,14 +238,6 @@ public class Course {
 		this.reader = reader;
 	}
 
-	public Reader getXmlReader() {
-		return xmlReader;
-	}
-
-	public void setXmlReader(Reader xmlReader) {
-		this.xmlReader = xmlReader;
-	}
-
 	public String getLanguage() {
 		return language;
 	}
@@ -255,19 +248,35 @@ public class Course {
 
 	public String termsToString(Keyword keyword) {
 		StringBuilder st = new StringBuilder();
-		for(String string: keyword.getTerms())
+		for (String string : keyword.getTerms())
 			st.append(string).append(" ");
 		return st.toString();
 	}
-	
 
-	public String phraseWordsToString(Keyphrase phrase) {
-		StringBuilder st = new StringBuilder();
-		for(String string: phrase.getPhraseWords())
-			st.append(string).append(" ");
-		return st.toString();
+	public ArrayList<Keyword> getKeywords() {
+		return keywords;
 	}
-	
+
+	public void setKeywords(ArrayList<Keyword> keywords) {
+		this.keywords = keywords;
+	}
+
+	public ArrayList<Keyphrase> getKeyphrases() {
+		return keyphrases;
+	}
+
+	public void setKeyphrases(ArrayList<Keyphrase> keyphrases) {
+		this.keyphrases = keyphrases;
+	}
+
+	public ArrayList<Acronym> getAcronyms() {
+		return acronyms;
+	}
+
+	public void setAcronyms(ArrayList<Acronym> acronyms) {
+		this.acronyms = acronyms;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder st = new StringBuilder();
@@ -297,9 +306,52 @@ public class Course {
 		st.append("Keyphrases: ").append("\n");
 		for (Keyphrase keyphrase : reader.getKeyphrases())
 			st.append(keyphrase.toString()).append("\n");
+		st.append("Acronyms: ").append("\n");
+		for (Acronym acronym : reader.getAcronyms())
+			st.append(acronym.toString()).append("\n");
 		st.append("-------------------------------------------------").append("\n\n");
 		return st.toString();
 	}
 
-
+	public String toString2() {
+		StringBuilder st = new StringBuilder();
+		st.append("\n-------------------------------------------------").append("\n");
+		st.append("Course:\t" + titleEn + "\tcode:\t" + code + "\tLanguage:\t" + language).append("\n");
+		st.append("-------------------------------------------------").append("\n");
+		st.append("code:").append("\t\t\t").append(code).append("\n");
+		st.append("round:").append("\t\t\t").append(round).append("\n");
+		st.append("canceled:").append("\t\t").append(isCancelled).append("\n");
+		st.append("Title En:").append("\t\t").append(titleEn).append("\n");
+		st.append("Title Sv:").append("\t\t").append(titleSv).append("\n");
+		st.append("Credits:").append("\t\t").append(credits).append("\n");
+		st.append("Educational level:").append("\t").append(educationLevel).append("\n");
+		st.append("Academic level code:").append("\t").append(academicLevelCode).append("\n");
+		st.append("Subject code:").append("\t\t").append(subjectCode).append("\n");
+		st.append("Subject:").append("\t\t").append(subject).append("\n");
+		st.append("Grade scale code:").append("\t").append(gradeScaleCode).append("\n");
+		st.append("Department code:").append("\t").append(departmentCode).append("\n");
+		st.append("Department:").append("\t\t").append(department).append("\n");
+		st.append("Contact Name:").append("\t\t").append(contactName).append("\n");
+		st.append("Recruitement text En:").append("\t").append(recruitmentTextEn).append("\n");
+		st.append("Recruitement text Sv:").append("\t").append(recruitmentTextSv).append("\n");
+		st.append("URL:").append("\t\t\t").append(courseURL).append("\n");
+		if(getKeywords() != null) {
+			st.append("Keywords: ").append("\n");
+			for (Keyword keyword : getKeywords())
+				st.append(keyword.toString()).append("\n");
+		}
+		if(getKeyphrases() != null) {
+			st.append("Keyphrases: ").append("\n");
+			for (Keyphrase keyphrase : getKeyphrases())
+				st.append(keyphrase.toString()).append("\n");
+		}
+		if(getAcronyms() != null) {
+			st.append("Acronyms: ").append("\n");
+			for (Acronym acronym : getAcronyms())
+				st.append(acronym.toString()).append("\n");
+		}
+		st.append("-------------------------------------------------").append("\n\n");
+		return st.toString();
+	}
+	
 }

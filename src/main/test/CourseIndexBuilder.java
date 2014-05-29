@@ -33,7 +33,7 @@ public class CourseIndexBuilder {
 			HashMap<String, Course> selectedCourses = new HashMap<String, Course>();
 			for (Course course : courses.values()) {
 				
-				if (c == 20)
+				if (c == 5)
 					break;
 				selectedCourses.put(course.getCode(), course);
 				CourseXMLPageParser.updateCourseContent(course);
@@ -50,6 +50,8 @@ public class CourseIndexBuilder {
 //			System.out.println(course.getXmlReader().toString());
 			
 			CourseLogger.storeCourseInfo(selectedCourses);
+			
+
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

@@ -42,8 +42,7 @@ public class CourseHomePageParser {
 			Reader readerEn = new Reader(course.getRecruitmentTextEn(), true, false, true);
 			KeywordFilterer.filterKeywords(readerEn.getKeywords(), stopwords);
 			KeyphraseFilterer.filterKeyphrases(readerEn.getKeyphrases(), stopwords);
-			course.setXmlReader(readerEn);
-			for(Keyword keyword: course.getXmlReader().getKeywords()) {
+			for(Keyword keyword: readerEn.getKeywords()) {
 				if(!course.getReader().containsKeyword(keyword.getStem())) { 
 					course.getReader().getKeywords().add(keyword);
 					System.out.println("Added\t" + keyword.getStem());

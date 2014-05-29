@@ -34,6 +34,20 @@ public class Keyphrase {
 	public ArrayList<String> getPhraseWords() {
 		return phraseWords;
 	}
+	
+	public String phraseWordsToString() {
+		StringBuilder st = new StringBuilder();
+		for (String string : getPhraseWords())
+			st.append(string).append(" ");
+		return st.toString();
+	}
+	
+	public String phraseStemsToString() {
+		StringBuilder st = new StringBuilder();
+		for (String string : getStems())
+			st.append(string).append(" ");
+		return st.toString();
+	}
 
 	@Override
 	public String toString() {

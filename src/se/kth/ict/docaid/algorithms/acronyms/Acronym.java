@@ -1,10 +1,11 @@
 package se.kth.ict.docaid.algorithms.acronyms;
 
 public class Acronym {
-	String acronym;
-	String[] spelledOut;
-	boolean isSpelledOut;
-	boolean isSpelledOnFirstCheck;
+	private String acronym;
+	private String[] spelledOut;
+	private boolean isSpelledOut;
+	private boolean isSpelledOnFirstCheck;
+	private String description;
 
 	public Acronym(String acronym, String[] spelledOut, boolean isSpelledOut, boolean isSpelledOnFirstCheck) {
 		super();
@@ -14,6 +15,11 @@ public class Acronym {
 		this.isSpelledOnFirstCheck = isSpelledOnFirstCheck;
 	}
 
+	public Acronym (String acronym, String description) {
+		this.acronym = acronym;
+		this.setDescription(description);
+	}
+	
 	public Acronym(String acronym) {
 		super();
 		this.acronym = acronym;
@@ -56,6 +62,14 @@ public class Acronym {
 		return st;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	public String toString() {
 
@@ -66,8 +80,10 @@ public class Acronym {
 				objs = objs + " " + s;
 		else
 			objs = "not spelled out";
-
-		return "Acronym [acronym=" + acronym + ", spelledOut=" + objs + ", isSpelledOut=" + isSpelledOut + ", isSpelledOnFirstCheck=" + isSpelledOnFirstCheck + "]";
+		if(description == null)
+			return "Acronym [acronym=" + acronym + ", spelledOut=" + objs + ", isSpelledOut=" + isSpelledOut + ", isSpelledOnFirstCheck=" + isSpelledOnFirstCheck + "]";
+		else
+			return "Acronym [acronym=" + acronym + " spelledOut=" + description;
 	}
 
 	public boolean isSpelledOnFirstCheck() {
