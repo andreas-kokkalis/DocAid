@@ -4,7 +4,7 @@ public class StringCompare {
 
 	private static float tcnt;
 
-	private void findSubstr(String s1, int s1len, String s2, int s2len, Struct ss) {
+	private static void findSubstr(String s1, int s1len, String s2, int s2len, Struct ss) {
 		int size = 1;
 
 		ss.setO2(-1);
@@ -39,7 +39,7 @@ public class StringCompare {
 		}
 	}
 
-	private void rsimil(String s1, int s1len, String s2, int s2len) {
+	private static void rsimil(String s1, int s1len, String s2, int s2len) {
 
 		Struct ss = new Struct();
 
@@ -70,7 +70,7 @@ public class StringCompare {
 	 * @param s2
 	 * @return
 	 */
-	public float getComparisonRatcliff(String s1, String s2) {
+	public static float getComparisonRatcliff(String s1, String s2) {
 		int s1len, s2len;
 		float tlen;
 
@@ -149,7 +149,7 @@ public class StringCompare {
 		return costs[s2.length()];
 	}
 
-	class Struct {
+	static class Struct {
 		Struct() {
 		};
 

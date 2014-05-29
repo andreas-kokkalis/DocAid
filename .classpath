@@ -27,9 +27,10 @@
 			<attribute name="javadoc_location" value="jar:file:/home/andrew/.m2/repository/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/andrew/workspace/knime/DocAid/lib/palladian-0.1.5-SNAPSHOT-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="/home/andrew/workspace/knime/DocAid/lib/palladian-0.1.5-SNAPSHOT-javadoc.jar"/>
-	<classpathentry kind="lib" path="/home/andrew/workspace/knime/DocAid/lib/tika-app-1.5.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Maui1.2"/>
+	<classpathentry kind="lib" path="lib/maui.jar"/>
+	<classpathentry kind="lib" path="lib/palladian-0.1.5-SNAPSHOT-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/palladian-0.1.5-SNAPSHOT-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/tika-app-1.5.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

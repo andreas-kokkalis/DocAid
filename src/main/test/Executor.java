@@ -2,6 +2,7 @@ package main.test;
 
 import java.util.ArrayList;
 
+import se.kth.ict.docaid.Recommender.Recommender;
 import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
 import se.kth.ict.docaid.documents.WebDocument;
@@ -49,13 +50,19 @@ public class Executor {
 		System.out.println("\n\n=========================================================\n=========================================================");
 		String url = "http://www.kth.se/student/kurser/kurs/ID2216?startterm=20131&l=en";
 		WebDocument doc = new WebDocument(url);
-		StopwordDictionairy stopwords = new StopwordDictionairy();
+		
+		String url2 = "http://www.kth.se/student/kurser/kurs/AG2417?l=en";
+		WebDocument doc2 = new WebDocument(url2);
+		
+		System.out.println(Recommender.getWeight(doc, doc2));
+		
+		/*		StopwordDictionairy stopwords = new StopwordDictionairy();
 		WebReader reader = new WebReader(doc);
 		@SuppressWarnings("unused")
 		ArrayList<Keyword> keywords = reader.getKeywords();
 		ArrayList<Keyphrase> keyphrases = reader.getKeyphrases();
 		for(Keyphrase keyphrase: keyphrases)
-			System.out.println(keyphrase.toString());
+			System.out.println(keyphrase.toString());*/
 	}
 
 }

@@ -1,0 +1,259 @@
+diff --git a/.classpath b/.classpath
+index 0f9ed7c..fcb3848 100755
+--- a/.classpath
++++ b/.classpath
+@@ -1,35 +1,36 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <classpath>
+ 	<classpathentry including="**/*.java" kind="src" path="src"/>
+-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+-	<classpathentry kind="var" path="M2_REPO/org/jsoup/jsoup/1.7.2/jsoup-1.7.2.jar" sourcepath="M2_REPO/org/jsoup/jsoup/1.7.2/jsoup-1.7.2-sources.jar">
++	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
++	<classpathentry exported="true" kind="var" path="M2_REPO/org/jsoup/jsoup/1.7.2/jsoup-1.7.2.jar" sourcepath="M2_REPO/org/jsoup/jsoup/1.7.2/jsoup-1.7.2-sources.jar">
+ 		<attributes>
+ 			<attribute name="javadoc_location" value="jar:file:/home/andrew/.m2/repository/org/jsoup/jsoup/1.7.2/jsoup-1.7.2-javadoc.jar!/"/>
+ 		</attributes>
+ 	</classpathentry>
+-	<classpathentry kind="var" path="M2_REPO/me/champeau/jlangdetect/jlangdetect-extra/0.4/jlangdetect-extra-0.4.jar" sourcepath="M2_REPO/me/champeau/jlangdetect/jlangdetect-extra/0.4/jlangdetect-extra-0.4-sources.jar">
++	<classpathentry exported="true" kind="var" path="M2_REPO/me/champeau/jlangdetect/jlangdetect-extra/0.4/jlangdetect-extra-0.4.jar" sourcepath="M2_REPO/me/champeau/jlangdetect/jlangdetect-extra/0.4/jlangdetect-extra-0.4-sources.jar">
+ 		<attributes>
+ 			<attribute name="javadoc_location" value="jar:file:/home/andrew/.m2/repository/me/champeau/jlangdetect/jlangdetect-extra/0.4/jlangdetect-extra-0.4-javadoc.jar!/"/>
+ 		</attributes>
+ 	</classpathentry>
+-	<classpathentry kind="var" path="M2_REPO/me/champeau/jlangdetect/jlangdetect-europarl/0.4/jlangdetect-europarl-0.4.jar" sourcepath="M2_REPO/me/champeau/jlangdetect/jlangdetect-europarl/0.4/jlangdetect-europarl-0.4-sources.jar">
++	<classpathentry exported="true" kind="var" path="M2_REPO/me/champeau/jlangdetect/jlangdetect-europarl/0.4/jlangdetect-europarl-0.4.jar" sourcepath="M2_REPO/me/champeau/jlangdetect/jlangdetect-europarl/0.4/jlangdetect-europarl-0.4-sources.jar">
+ 		<attributes>
+ 			<attribute name="javadoc_location" value="jar:file:/home/andrew/.m2/repository/me/champeau/jlangdetect/jlangdetect-europarl/0.4/jlangdetect-europarl-0.4-javadoc.jar!/"/>
+ 		</attributes>
+ 	</classpathentry>
+-	<classpathentry kind="var" path="M2_REPO/me/champeau/jlangdetect/jlangdetect/0.4/jlangdetect-0.4.jar" sourcepath="M2_REPO/me/champeau/jlangdetect/jlangdetect/0.4/jlangdetect-0.4-sources.jar">
++	<classpathentry exported="true" kind="var" path="M2_REPO/me/champeau/jlangdetect/jlangdetect/0.4/jlangdetect-0.4.jar" sourcepath="M2_REPO/me/champeau/jlangdetect/jlangdetect/0.4/jlangdetect-0.4-sources.jar">
+ 		<attributes>
+ 			<attribute name="javadoc_location" value="jar:file:/home/andrew/.m2/repository/me/champeau/jlangdetect/jlangdetect/0.4/jlangdetect-0.4-javadoc.jar!/"/>
+ 		</attributes>
+ 	</classpathentry>
+-	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5-sources.jar">
++	<classpathentry exported="true" kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5-sources.jar">
+ 		<attributes>
+ 			<attribute name="javadoc_location" value="jar:file:/home/andrew/.m2/repository/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5-javadoc.jar!/"/>
+ 		</attributes>
+ 	</classpathentry>
+-	<classpathentry kind="lib" path="/home/andrew/workspace/knime/DocAid/lib/palladian-0.1.5-SNAPSHOT-jar-with-dependencies.jar"/>
+-	<classpathentry kind="lib" path="/home/andrew/workspace/knime/DocAid/lib/palladian-0.1.5-SNAPSHOT-javadoc.jar"/>
+-	<classpathentry kind="lib" path="/home/andrew/workspace/knime/DocAid/lib/tika-app-1.5.jar"/>
+-	<classpathentry combineaccessrules="false" kind="src" path="/Maui1.2"/>
++	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/Maui1.2"/>
++	<classpathentry exported="true" kind="lib" path="lib/maui.jar"/>
++	<classpathentry exported="true" kind="lib" path="lib/palladian-0.1.5-SNAPSHOT-jar-with-dependencies.jar"/>
++	<classpathentry exported="true" kind="lib" path="lib/palladian-0.1.5-SNAPSHOT-javadoc.jar"/>
++	<classpathentry exported="true" kind="lib" path="lib/tika-app-1.5.jar"/>
+ 	<classpathentry kind="output" path="target/classes"/>
+ </classpath>
+diff --git a/src/main/test/Executor.java b/src/main/test/Executor.java
+index 658f3fe..fd3094b 100755
+--- a/src/main/test/Executor.java
++++ b/src/main/test/Executor.java
+@@ -1,12 +1,24 @@
+ package main.test;
+ 
++import java.io.File;
++import java.io.FileNotFoundException;
++import java.io.IOException;
+ import java.util.ArrayList;
++import java.util.LinkedList;
+ 
++import org.apache.tika.exception.TikaException;
++import org.xml.sax.SAXException;
++
++import se.kth.ict.docaid.algorithms.acronyms.Acronym;
+ import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
+ import se.kth.ict.docaid.algorithms.keywords.Keyword;
++import se.kth.ict.docaid.documents.InputDocument;
+ import se.kth.ict.docaid.documents.WebDocument;
+ import se.kth.ict.docaid.filters.StopwordDictionairy;
++import se.kth.ict.docaid.reader.DocumentReader;
+ import se.kth.ict.docaid.reader.WebReader;
++import se.kth.ict.docaid.recommender.Recommender;
++import aid.project.utils.UtilClass;
+ 
+ public class Executor {
+ 
+@@ -46,16 +58,83 @@ public class Executor {
+ //			}
+ //		}
+ 
++	
+ 		System.out.println("\n\n=========================================================\n=========================================================");
+ 		String url = "http://www.kth.se/student/kurser/kurs/ID2216?startterm=20131&l=en";
+ 		WebDocument doc = new WebDocument(url);
++		@SuppressWarnings("unused")
+ 		StopwordDictionairy stopwords = new StopwordDictionairy();
+ 		WebReader reader = new WebReader(doc);
+-		@SuppressWarnings("unused")
+ 		ArrayList<Keyword> keywords = reader.getKeywords();
+ 		ArrayList<Keyphrase> keyphrases = reader.getKeyphrases();
++		
++		LinkedList<Acronym> acronyms = reader.getAcronyms();
++		
++		String url2 = "http://www.kth.se/student/kurser/kurs/AG2417?l=en";
++		WebDocument doc2 = new WebDocument(url2);
++		reader = new WebReader(doc2);
++		LinkedList<Acronym> acronyms2 = reader.getAcronyms();
++		ArrayList<Keyword> keywords2 = reader.getKeywords();
++		ArrayList<Keyphrase> keyphrases2 = reader.getKeyphrases();
++
++		System.out.println(Recommender.getWeight(acronyms, acronyms2, keywords, keywords2, keyphrases, keyphrases2));
++
++		/*
++		InputDocument thisDoc;
++		try {
++			thisDoc = UtilClass.getInstance().getInputDocument(new File("testdata/Exercise1.pdf"));
++			DocumentReader reader2 = new DocumentReader(thisDoc, stopwords);
++			LinkedList<Acronym> acronyms3 = reader2.getAcronyms();
++			ArrayList<Keyword> keywords3 = reader2.getKeywords();
++			ArrayList<Keyphrase> keyphrases3 = reader2.getKeyphrases();
++			System.out.println(Recommender.getWeight(acronyms, acronyms3, keywords, keywords3, keyphrases, keyphrases3));
++			System.out.println(Recommender.getWeight(acronyms2, acronyms3, keywords2, keywords3, keyphrases2, keyphrases3));
++			
++			System.out.println(Recommender.getWeight(acronyms3, acronyms2, keywords3, keywords2, keyphrases3, keyphrases2));
++			
++			System.out.println(Recommender.getWeight(acronyms3, acronyms, keywords3, keywords, keyphrases3, keyphrases));
++
++		} catch (FileNotFoundException e) {
++			// TODO Auto-generated catch block
++			e.printStackTrace();
++		} catch (IOException e) {
++			// TODO Auto-generated catch block
++			e.printStackTrace();
++		} catch (SAXException e) {
++			// TODO Auto-generated catch block
++			e.printStackTrace();
++		} catch (TikaException e) {
++			// TODO Auto-generated catch block
++			e.printStackTrace();
++		}
++	*/
++		
++		
++		//for (Keyword k: keywords) System.out.println(k.getStem());
++
++		
++		//System.out.println(Recomender.getKeywordWeight(keywords, keywords2));
++
++		//System.out.println(Recomender.getKeyphraseWeight(keyphrases, keyphrases2));
++		
++		
++		/*for (Acronym acc : acronyms) {
++			System.out.println(acc.getAcronym());
++		}
++		
++		System.out.println("\n\n=========================================================\n=========================================================");
++
++		
++		for (Acronym acc : acronyms2) {
++			System.out.println(acc.getAcronym());
++		}
++		
++		System.out.println("\n\n=========================================================\n=========================================================");
++
++		System.out.println(Recomender.getAcronymWeight(acronyms, acronyms2));*/
++		/*
+ 		for(Keyphrase keyphrase: keyphrases)
+-			System.out.println(keyphrase.toString());
++			System.out.println(keyphrase.toString());*/
+ 	}
+ 
+ }
+diff --git a/src/se/kth/ict/docaid/algorithms/stringcomparison/StringCompare.java b/src/se/kth/ict/docaid/algorithms/stringcomparison/StringCompare.java
+index 55ca16d..7e81b14 100644
+--- a/src/se/kth/ict/docaid/algorithms/stringcomparison/StringCompare.java
++++ b/src/se/kth/ict/docaid/algorithms/stringcomparison/StringCompare.java
+@@ -4,7 +4,7 @@ public class StringCompare {
+ 
+ 	private static float tcnt;
+ 
+-	private void findSubstr(String s1, int s1len, String s2, int s2len, Struct ss) {
++	private static void findSubstr(String s1, int s1len, String s2, int s2len, Struct ss) {
+ 		int size = 1;
+ 
+ 		ss.setO2(-1);
+@@ -39,7 +39,7 @@ public class StringCompare {
+ 		}
+ 	}
+ 
+-	private void rsimil(String s1, int s1len, String s2, int s2len) {
++	private static void rsimil(String s1, int s1len, String s2, int s2len) {
+ 
+ 		Struct ss = new Struct();
+ 
+@@ -70,7 +70,7 @@ public class StringCompare {
+ 	 * @param s2
+ 	 * @return
+ 	 */
+-	public float getComparisonRatcliff(String s1, String s2) {
++	public static float getComparisonRatcliff(String s1, String s2) {
+ 		int s1len, s2len;
+ 		float tlen;
+ 
+@@ -149,7 +149,7 @@ public class StringCompare {
+ 		return costs[s2.length()];
+ 	}
+ 
+-	class Struct {
++	public static class Struct {
+ 		Struct() {
+ 		};
+ 
+diff --git a/src/se/kth/ict/docaid/database/DatabaseConnection.java b/src/se/kth/ict/docaid/database/DatabaseConnection.java
+index aeca408..e4d54c8 100644
+--- a/src/se/kth/ict/docaid/database/DatabaseConnection.java
++++ b/src/se/kth/ict/docaid/database/DatabaseConnection.java
+@@ -7,8 +7,8 @@ import java.sql.SQLException;
+ public class DatabaseConnection {
+ 	private static String dbName = "docaid";
+ 	private static String dbHost = "localhost";
+-	private static String dbUser = "gis";
+-	private static String dbPassword = "gis";
++	private static String dbUser = "adrian";
++	private static String dbPassword = "adi";
+ 	private Connection connection;
+ 
+ 	public DatabaseConnection() {
+diff --git a/src/se/kth/ict/docaid/database/logger/course/CourseLogger.java b/src/se/kth/ict/docaid/database/logger/course/CourseLogger.java
+index aa8ccf4..4603f52 100644
+--- a/src/se/kth/ict/docaid/database/logger/course/CourseLogger.java
++++ b/src/se/kth/ict/docaid/database/logger/course/CourseLogger.java
+@@ -77,6 +77,7 @@ public class CourseLogger {
+ 
+ 			for (Course course : courses.values()) {
+ 				for (Keyword keyword : course.getReader().getKeywords()) {
++					
+ 					// Check if the stem exists and if it's true get its id
+ 					int id = stemExists(keyword.getStem(), connection);
+ 					if (id == 0) {
+@@ -90,6 +91,7 @@ public class CourseLogger {
+ 							id = rs.getInt(1);
+ 						}
+ 					}
++					
+ 					// Insert the stem in the database.
+ 					String insert = "INSERT INTO keyword_ref (kid, code, terms) VALUES (?,?,?)";
+ 					PreparedStatement st = connection.prepareStatement(insert);
+@@ -97,7 +99,6 @@ public class CourseLogger {
+ 					st.setString(2, course.getCode());
+ 					st.setString(3, course.termsToString(keyword));
+ 					st.executeUpdate();
+-					st.close();
+ 				}
+ 				for (Keyphrase keyphrase : course.getReader().getKeyphrases()) {
+ 					// Check if the stem keyphrase and if it's true get its id
+@@ -144,6 +145,9 @@ public class CourseLogger {
+ 					st.executeUpdate();
+ 				}
+ 			}
++			
++			connection.commit();
++
+ 		} catch (SQLException e) {
+ 			e.printStackTrace();
+ 		}
