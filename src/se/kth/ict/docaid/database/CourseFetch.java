@@ -450,7 +450,7 @@ public class CourseFetch {
 			while (results.next()) {
 				String code = results.getString("code");
 				Course course = getCourseData(code, connection);
-				System.out.println(course.toString2());
+				//System.out.println(course.toString2());
 				courses.put(code, course);
 			}
 			results.close();

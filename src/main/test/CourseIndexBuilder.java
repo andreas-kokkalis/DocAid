@@ -31,7 +31,7 @@ public class CourseIndexBuilder {
 			HashMap<String, Course> courses1 = CourseXMLPageParser.retrieveCourseCodes(doc1);
 			courses.putAll(courses1);
 
-			int c = 0;
+		/*	int c = 0;
 			HashMap<String, Course> selectedCourses = new HashMap<String, Course>();
 			for (Course course : courses.values()) {
 				System.out.println(c +" out of " + courses.size());
@@ -40,7 +40,7 @@ public class CourseIndexBuilder {
 					CourseHomePageParser.updateCourseInfo(course, stopwords);
 					System.out.println(course.toString2());}
 				c++;
-			}
+			}*/
 
 //			System.out.println("\n\n============================================================\n");
 //			Course course = courses.get("ID2203");
@@ -56,9 +56,9 @@ public class CourseIndexBuilder {
 				System.out.println(CourseFetch.retrieveAllCourses(new DatabaseConnection().getConnection()).get(s).toString());
 				}
 			*/
-			
+			/*
 			CourseLogger.storeCourseInfo(selectedCourses);
-			
+			*/
 
 			
 		} catch (Exception e) {

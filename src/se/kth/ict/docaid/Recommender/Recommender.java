@@ -39,32 +39,58 @@ public class Recommender {
 		int requestSize = requestRec.size();
 
 		int numberOfMatchedAcronyms = 0;
-
 		for (Acronym reqAcc : requestRec) {
-			for (Acronym canAcc : candidateRec) {
-				if (reqAcc.getAcronym().equalsIgnoreCase(canAcc.getAcronym())) {
-					if (reqAcc.isSpelledOut()) {
-						if (StringCompare.getComparisonRatcliff(
-								reqAcc.spelloutString(),
-								canAcc.spelloutString()) > ThreshString) {
-							System.out.println(StringCompare
-									.getComparisonLevenshtein(
-											reqAcc.spelloutString(),
-											canAcc.spelloutString()));
-							// increment if acronyms represent the same word
+			if (!shouldBeAvoided(reqAcc.getAcronym()))
+				for (Acronym canAcc : candidateRec) {
+					if (reqAcc.getAcronym().equalsIgnoreCase(
+							canAcc.getAcronym())) {
+						if (reqAcc.isSpelledOut()) {
+							if (StringCompare.getComparisonRatcliff(
+									reqAcc.spelloutString(),
+									canAcc.spelloutString()) > ThreshString) {
+								System.out.println(StringCompare
+										.getComparisonLevenshtein(
+												reqAcc.spelloutString(),
+												canAcc.spelloutString()));
+								// increment if acronyms represent the same word
+								numberOfMatchedAcronyms++;
+							}
+						} else
+							// increment if acronyms are not spelled
 							numberOfMatchedAcronyms++;
-						}
-					} else
-						// increment if acronyms are not spelled
-						numberOfMatchedAcronyms++;
+					}
 				}
-			}
 		}
 
 		// System.out.println(numberOfMatchedAcronyms);
 		// System.out.println(requestSize);
 
 		return (float) numberOfMatchedAcronyms / requestSize;
+	}
+
+	private static boolean shouldBeAvoided(String s) {
+		boolean isAcronym = true;
+		for (char c : s.toCharArray()) {
+			if (Character.isLetter(c) && Character.isLowerCase(c)) {
+				isAcronym = false;
+			}
+		}
+
+		boolean containsLetters = false;
+		for (char c : s.toCharArray()) {
+			if (Character.isLetter(c))
+				containsLetters = true;
+		}
+
+		boolean containsNumbers = false;
+		for (char c : s.toCharArray()) {
+			if (Character.isDigit(c))
+				containsNumbers = true;
+		}
+
+		boolean isSizeCorrect = (s.toCharArray().length == 6);
+
+		return (isAcronym && containsLetters && containsNumbers && isSizeCorrect);
 	}
 
 	/**
@@ -121,6 +147,8 @@ public class Recommender {
 		int requestSize = requestKeyphrases.size();
 		int numberOfMatchedKeyphrases = 0;
 
+		if (candidateKeyphrases==null) return 0;
+		
 		for (Keyphrase reqKey : requestKeyphrases) {
 			for (Keyphrase canKey : candidateKeyphrases) {
 				int requestStems = reqKey.getStems().size();
@@ -349,5 +377,41 @@ public class Recommender {
 		return getWeight(c2.getAcronyms2(), canCourse.getAcronyms2(),
 				c2.getKeywords(), canCourse.getKeywords(), c2.getKeyphrases(),
 				canCourse.getKeyphrases());
+	}
+
+	public static HashMap<String, Float> getCourseAcronymRecommendation(
+			InputDocument inputDoc, HashMap<String, Course> courses) {
+		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
+		DocumentReader reqReader = new DocumentReader(inputDoc, new StopwordDictionairy());
+		for (String s : courses.keySet()) {
+			if (courses.get(s) != null)
+				selectedCourses.put(s, getAcronymWeight(reqReader.getAcronyms(), courses.get(s).getAcronyms2()));
+		}
+
+		return sortHashMapByValuesD(selectedCourses);
+	}
+
+	public static HashMap<String, Float> getCourseKeywordRecommendation(
+			InputDocument inputDoc, HashMap<String, Course> courses) {
+		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
+		DocumentReader reqReader = new DocumentReader(inputDoc, new StopwordDictionairy());
+		for (String s : courses.keySet()) {
+			if (courses.get(s) != null)
+				selectedCourses.put(s, getKeywordWeight(reqReader.getKeywords(), courses.get(s).getKeywords()));
+		}
+
+		return sortHashMapByValuesD(selectedCourses);
+	}
+
+	public static HashMap<String, Float> getCourseKeyphraseRecommendation(
+			InputDocument inputDoc, HashMap<String, Course> courses) {
+		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
+		DocumentReader reqReader = new DocumentReader(inputDoc, new StopwordDictionairy());
+		for (String s : courses.keySet()) {
+			if (courses.get(s) != null)
+				selectedCourses.put(s, getKeyphraseWeight(reqReader.getKeyphrases(), courses.get(s).getKeyphrases()));
+		}
+
+		return sortHashMapByValuesD(selectedCourses);
 	}
 }

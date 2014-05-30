@@ -62,16 +62,16 @@ public class Executor {
 //		}
 
 		System.out.println("\n\n=========================================================\n=========================================================");
-		String url = "http://www.kth.se/student/kurser/kurs/ID2216?startterm=20131&l=en";
+/*		String url = "http://www.kth.se/student/kurser/kurs/ID2216?startterm=20131&l=en";
 		WebDocument doc = new WebDocument(url);
 		
 		String url2 = "http://www.kth.se/student/kurser/kurs/AG2417?l=en";
 		WebDocument doc2 = new WebDocument(url2);
 		
-		InputDocument thisDoc = UtilClass.getInstance().getInputDocument(new File("testdata/Exercise1.pdf"));
-		
 		System.out.println(Recommender.getWeight(doc, doc2));
-		 HashMap<String, Float> hM = Recommender.getCourseRecommendation(doc2, CourseFetch.retrieveAllCourses(new DatabaseConnection().getConnection()));
+		*/
+		InputDocument thisDoc = UtilClass.getInstance().getInputDocument(new File("testdata/Exercise 1.doc"));
+		 HashMap<String, Float> hM = Recommender.getCourseRecommendation(thisDoc, CourseFetch.retrieveAllCourses(new DatabaseConnection().getConnection()));
 		for (String s : hM.keySet())
 			System.out.println(s+" "+hM.get(s));
 		
