@@ -133,11 +133,16 @@ public class AcronymDetector {
 									try {
 										/*
 										 * System.out.println("checking the list before "+ k+ " "+words[k]);
-										 */wordsBefore[indexBefore] = words[k];
+										 */
+										wordsBefore[indexBefore] = words[k];
 										indexBefore++;
 									} catch (Exception e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
+										currentAcronym.setSpelledOnFirstCheck(false);
+										currentAcronym.setIsSpelledOut(false);
+										checkedAcronyms.add(currentAcronym);
+										return checkedAcronyms;
 									}
 								}
 								spelledBefore = checkWords(w, wordsBefore);
@@ -155,12 +160,17 @@ public class AcronymDetector {
 									try {
 										/*
 										 * System.out.println("checking the list after "+ k+" "+ words[k]);
-										 */wordsAfter[indexAfter] = words[k];
+										 */
+										wordsAfter[indexAfter] = words[k];
 										indexAfter++;
 									} catch (Exception e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
-										break;
+										currentAcronym.setSpelledOnFirstCheck(false);
+										currentAcronym.setIsSpelledOut(false);
+										checkedAcronyms.add(currentAcronym);
+										return checkedAcronyms;
+										// break;
 									}
 								}
 								spelledAfter = checkWords(w, wordsAfter);

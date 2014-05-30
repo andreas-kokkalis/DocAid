@@ -91,6 +91,9 @@ public class Reader {
 	}
 
 	public ArrayList<Keyphrase> getKeyphrases() {
+		
+		if (keyphrases==null) return new ArrayList<Keyphrase>();
+		
 		return keyphrases;
 	}
 

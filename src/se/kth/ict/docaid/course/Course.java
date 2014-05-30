@@ -1,10 +1,12 @@
 package se.kth.ict.docaid.course;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import se.kth.ict.docaid.algorithms.acronyms.Acronym;
 import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
+import se.kth.ict.docaid.documents.WebDocument;
 import se.kth.ict.docaid.reader.WebReader;
 
 /**
@@ -271,6 +273,12 @@ public class Course {
 
 	public ArrayList<Acronym> getAcronyms() {
 		return acronyms;
+	}
+	
+	public LinkedList<Acronym> getAcronyms2() {
+		if (acronyms!=null)
+		return new LinkedList<>(acronyms);
+		return new LinkedList<Acronym>();
 	}
 
 	public void setAcronyms(ArrayList<Acronym> acronyms) {

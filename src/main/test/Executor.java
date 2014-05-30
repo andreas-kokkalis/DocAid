@@ -1,13 +1,23 @@
 package main.test;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashMap;
+
+import org.apache.tika.exception.TikaException;
+import org.xml.sax.SAXException;
 
 import se.kth.ict.docaid.Recommender.Recommender;
-import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
-import se.kth.ict.docaid.algorithms.keywords.Keyword;
+import se.kth.ict.docaid.database.CourseFetch;
+import se.kth.ict.docaid.database.DatabaseConnection;
+import se.kth.ict.docaid.documents.InputDocument;
 import se.kth.ict.docaid.documents.WebDocument;
-import se.kth.ict.docaid.filters.StopwordDictionairy;
-import se.kth.ict.docaid.reader.WebReader;
+import se.kth.ict.docaid.reader.DocumentReader;
+
+import aid.project.utils.UtilClass;
+
+import com.google.common.collect.ImmutableSortedMap;
 
 public class Executor {
 
@@ -15,8 +25,12 @@ public class Executor {
 
 	/**
 	 * @param args
+	 * @throws TikaException 
+	 * @throws SAXException 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, IOException, SAXException, TikaException {
 		// TODO Auto-generated method stub
 
 //		String url = "http://www.kth.se/api/kopps/v1/course/AG2425";
@@ -54,7 +68,12 @@ public class Executor {
 		String url2 = "http://www.kth.se/student/kurser/kurs/AG2417?l=en";
 		WebDocument doc2 = new WebDocument(url2);
 		
+		InputDocument thisDoc = UtilClass.getInstance().getInputDocument(new File("testdata/Exercise1.pdf"));
+		
 		System.out.println(Recommender.getWeight(doc, doc2));
+		 HashMap<String, Float> hM = Recommender.getCourseRecommendation(doc2, CourseFetch.retrieveAllCourses(new DatabaseConnection().getConnection()));
+		for (String s : hM.keySet())
+			System.out.println(s+" "+hM.get(s));
 		
 		/*		StopwordDictionairy stopwords = new StopwordDictionairy();
 		WebReader reader = new WebReader(doc);

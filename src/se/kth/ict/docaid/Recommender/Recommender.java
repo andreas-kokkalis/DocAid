@@ -1,8 +1,13 @@
 package se.kth.ict.docaid.Recommender;
 
-
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import se.kth.ict.docaid.algorithms.acronyms.Acronym;
 import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
@@ -171,9 +176,18 @@ public class Recommender {
 			ArrayList<Keyword> canKeyword, ArrayList<Keyphrase> reqKeyphrases,
 			ArrayList<Keyphrase> canKeyphrase) {
 
-		return getAcronymWeight(reqAcc, canAcc)
-				+ getKeywordWeight(reqKeyword, reqKeyword)
-				+ getKeyphraseWeight(reqKeyphrases, canKeyphrase);
+		float acronym = 0;
+		float keyword = 0;
+		float keyphrase = 0;
+
+		if (canAcc != null && reqAcc != null)
+			acronym = getAcronymWeight(reqAcc, canAcc);
+		if (reqKeyword != null && canKeyword != null)
+			keyword = getKeywordWeight(reqKeyword, reqKeyword);
+		if (reqKeyphrases != null && canKeyphrase != null)
+			keyphrase = getKeyphraseWeight(reqKeyphrases, canKeyphrase);
+
+		return acronym + keyword + keyphrase;
 
 	}
 
@@ -223,12 +237,11 @@ public class Recommender {
 	 *            - the course that is a candidate for recommendation
 	 * @return a value [0..3], where 3 represents a perfect match
 	 */
-	public static float getWeight(WebDocument reqDoc, Course canDoc) {
-		WebReader reqReader = new WebReader(reqDoc);
-		WebReader canReader = canDoc.getReader();
-		return getWeight(reqReader.getAcronyms(), canReader.getAcronyms(),
-				reqReader.getKeywords(), canReader.getKeywords(),
-				reqReader.getKeyphrases(), canReader.getKeyphrases());
+	public static float getWeight(WebReader reqReader, Course canDoc) {
+
+		return getWeight(reqReader.getAcronyms(), canDoc.getAcronyms2(),
+				reqReader.getKeywords(), canDoc.getKeywords(),
+				reqReader.getKeyphrases(), canDoc.getKeyphrases());
 	}
 
 	/**
@@ -240,13 +253,101 @@ public class Recommender {
 	 *            - the course that is a candidate for recommendation
 	 * @return a value [0..3], where 3 represents a perfect match
 	 */
-	public static float getWeight(InputDocument reqDoc, Course canDoc) {
-		StopwordDictionairy stopwords = new StopwordDictionairy();
-		DocumentReader reqReader = new DocumentReader(reqDoc, stopwords);
-		WebReader canReader = canDoc.getReader();
-		return getWeight(reqReader.getAcronyms(), canReader.getAcronyms(),
-				reqReader.getKeywords(), canReader.getKeywords(),
-				reqReader.getKeyphrases(), canReader.getKeyphrases());
+	public static float getWeight(DocumentReader reqReader, Course canDoc) {
+
+		return getWeight(reqReader.getAcronyms(), canDoc.getAcronyms2(),
+				reqReader.getKeywords(), canDoc.getKeywords(),
+				reqReader.getKeyphrases(), canDoc.getKeyphrases());
 	}
 
+	public static HashMap<String, Float> getCourseRecommendation(
+			InputDocument inputDoc, HashMap<String, Course> courses) {
+
+		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
+
+		DocumentReader inputReader = new DocumentReader(inputDoc,
+				new StopwordDictionairy());
+
+		for (String s : courses.keySet()) {
+			selectedCourses.put(s, getWeight(inputReader, courses.get(s)));
+		}
+
+		return sortHashMapByValuesD(selectedCourses);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static LinkedHashMap sortHashMapByValuesD(HashMap passedMap) {
+		List mapKeys = new ArrayList(passedMap.keySet());
+		List mapValues = new ArrayList(passedMap.values());
+		Collections.sort(mapValues);
+		Collections.sort(mapKeys);
+
+		Collections.reverse(mapValues);
+		Collections.reverse(mapKeys);
+
+		LinkedHashMap sortedMap = new LinkedHashMap();
+
+		Iterator valueIt = mapValues.iterator();
+		while (valueIt.hasNext()) {
+			Object val = valueIt.next();
+			Iterator keyIt = mapKeys.iterator();
+
+			while (keyIt.hasNext()) {
+				Object key = keyIt.next();
+				String comp1 = passedMap.get(key).toString();
+				String comp2 = val.toString();
+
+				if (comp1.equals(comp2)) {
+					passedMap.remove(key);
+					mapKeys.remove(key);
+					sortedMap.put((String) key, (Float) val);
+					break;
+				}
+
+			}
+
+		}
+		return sortedMap;
+	}
+
+	public static HashMap<String, Float> getCourseRecommendation(
+			WebDocument inputDoc, HashMap<String, Course> courses) {
+
+		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
+		WebReader reqReader = new WebReader(inputDoc);
+		for (String s : courses.keySet()) {
+			if (courses.get(s) != null)
+				selectedCourses.put(s, getWeight(reqReader, courses.get(s)));
+		}
+
+		return sortHashMapByValuesD(selectedCourses);
+	}
+
+	public static HashMap<String, Float> getCourseRecommendation(
+			LinkedList<Course> reqCourses, HashMap<String, Course> canCourses) {
+
+		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
+
+		for (Course c : reqCourses) {
+			for (String s : canCourses.keySet()) {
+				if (canCourses.get(s) != null)
+					selectedCourses.put(s,
+							getWeight(c, canCourses.get(s), reqCourses));
+			}
+		}
+
+		return sortHashMapByValuesD(selectedCourses);
+	}
+
+	public static Float getWeight(Course c2, Course canCourse,
+			LinkedList<Course> reqCourses) {
+
+		// do not recommend the same courses
+		for (Course c : reqCourses)
+			if (c.getCode().equalsIgnoreCase(canCourse.getCode()))
+				return 0f;
+		return getWeight(c2.getAcronyms2(), canCourse.getAcronyms2(),
+				c2.getKeywords(), canCourse.getKeywords(), c2.getKeyphrases(),
+				canCourse.getKeyphrases());
+	}
 }
