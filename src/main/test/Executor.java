@@ -79,10 +79,82 @@ public class Executor {
 		
 		System.out.println(Recommender.getWeight(doc, doc2));
 		*/
+
+		LinkedList<File> files = UtilClass.getAcronymTestFiles();
+		for (File f : files) {
+			System.out.println("====================================================");
+			System.out.println("TESTING DOCUMENT "+f.getName());
+			//if (f.getName().equalsIgnoreCase("test5.pdf"))
+			try {
+				InputDocument thisDoc = UtilClass.getInstance().getInputDocument(f);
+				
+				//System.out.println(thisDoc.getBody());
+				
+				DocumentReader readerReg = new DocumentReader(thisDoc, new StopwordDictionairy());
+/*				
+				
+				String[] targetedKeywords = UtilClass.getInstance().getTargetedKeywords(thisDoc.getBody());
+				
+				System.out.println("-------------------------");
+				System.out.print("Targeted keywords: ");
+				System.out.println("-------------------------");
+				
+				for (String s: targetedKeywords) System.out.print(s+",");
+				System.out.println();
+				
+				HashMap<String, Float> unOrderedKeyphrases = new HashMap<String, Float>();
+				
+				System.out.println("-------------------------");
+				System.out.println("DETECTED KEYPHRASES");
+				System.out.println("-------------------------");
+				
+				for (Keyphrase kp : readerReg.getKeyphrases())
+					{
+					unOrderedKeyphrases.put(kp.getPhrase(), (float)kp.getFactor());
+					}
+				
+				HashMap<String, Float> orderedKeyphrases =  Recommender.sortHashMapByValuesDescending(unOrderedKeyphrases);
+				
+				for (String s : orderedKeyphrases.keySet()){
+					System.out.println(s+" "+orderedKeyphrases.get(s));
+				}
+				
+				System.out.println("-------------------------");
+				System.out.println("DETECTED KEYWORDS");
+				System.out.println("-------------------------");
+				
+				for (Keyword kw : readerReg.getKeywords())
+					if (kw.getFrequency()>20)
+					System.out.println(kw.toString() + kw.getTerms());*/
+				
+				System.out.println("-------------------------");
+				System.out.println("DETECTED ACRONYMS");
+				System.out.println("-------------------------");
+				
+				for (Acronym acc: readerReg.getAcronyms())
+					System.out.println(acc.toString());
+				
+				System.out.println("====================================================");
+
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (SAXException e) {
+				e.printStackTrace();
+			} catch (TikaException e) {
+				e.printStackTrace();
+			} catch (NullPointerException e) {
+				System.out.println(e + "\n" + "cobra taka taka");
+			}
+		}
 		
-		Connection conn = new DatabaseConnection().getConnection(); 
+		//InputDocument testDoc = UtilClass.getInstance().getInputDocument(new File("testdata/testpapers/test8.pdf"));
 		
-		DocumentReader readerReg = new DocumentReader(UtilClass.getInstance().getInputDocument(new File("testdata/test1.pdf")), new StopwordDictionairy());
+		
+		
+		/*
 		
 		HashMap<String, Float> unOrderedKeyphrases = new HashMap<String, Float>();
 		
@@ -101,7 +173,7 @@ public class Executor {
 			System.out.println(kw.toString() + kw.getTerms());
 		
 		for (Acronym acc: readerReg.getAcronyms())
-			System.out.println(acc.toString());
+			System.out.println(acc.toString());*/
 			
 		/*LinkedList<Course> consideredCourses = new LinkedList<Course>();
 		

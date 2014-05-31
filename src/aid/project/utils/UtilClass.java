@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
@@ -161,7 +162,7 @@ public class UtilClass {
 	 * @return a linked list of files used in testin
 	 */
 	public static LinkedList<File> getTestFiles() {
-		File folder = new File("testdata");
+		File folder = new File("testdata/testpapers");
 		File[] listOfFiles = folder.listFiles();
 		LinkedList<File> myListOfFiles = new LinkedList<>();
 
@@ -190,5 +191,38 @@ public class UtilClass {
 		}
 		System.out.println("Couldn't get tika config");
 		return null;
+	}
+
+	public String[] getTargetedKeywords(String body) {
+
+		String[] splitted;
+		try {
+			String[] splitted2 = body.split("Keywords");
+			splitted = splitted2[1].split("\n");
+			System.out.println(splitted[0]);
+			return splitted[0].split("([,;:.])");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new String[0];
+		}
+		
+	}
+
+	public static LinkedList<File> getAcronymTestFiles() {
+		File folder = new File("testdata/acronymtest");
+		File[] listOfFiles = folder.listFiles();
+		LinkedList<File> myListOfFiles = new LinkedList<>();
+
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
+				myListOfFiles.add(listOfFiles[i]);
+				System.out.println("File " + listOfFiles[i].getName());
+				
+			} else if (listOfFiles[i].isDirectory()) {
+				System.out.println("Directory " + listOfFiles[i].getName());
+			}
+		}
+		return myListOfFiles;
 	}
 }

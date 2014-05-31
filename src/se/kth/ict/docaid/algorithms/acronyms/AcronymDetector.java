@@ -3,6 +3,10 @@ package se.kth.ict.docaid.algorithms.acronyms;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import com.ctc.wstx.evt.WProcInstr;
+
+import sun.nio.cs.ext.ISCII91;
+
 /**
  * @author adrian, andrew
  *  
@@ -17,24 +21,51 @@ public class AcronymDetector {
 	 * @param text Input text from which acronyms are extracted.
 	 * @return The list of acronyms if exist, or an empty list.
 	 */
-	public static LinkedList<String> detectAcronyms(String text) {
+	public static LinkedList<String> detectAcronyms(String text2) {
 		LinkedList<String> acronymList = new LinkedList<String>();
 
 		// System.out.println("text "+ text);
+		
+		System.out.println("======================================================================");
+		
+		String text = "";
+		
+		for (String x: text2.split("\n"))
+				if (!isAllUpper(x)) text=text+x+"\n";
+		
+		//text = text.trim();
+		text = text.replaceAll("\n", " ").replaceAll("\r", " ").replaceAll("\t", " ").replaceAll("\b", " ").replaceAll("\f", " ").replaceAll(",", " ").replaceAll(":", " ").replaceAll(";", " ").replaceAll("\\(", " ").replaceAll("\\)", " ").replaceAll("”", " ").replaceAll("\\p{Pd}", " ").replaceAll("[^\\x0A\\x0D\\x20-\\x7E]", "");
+		text = text.replaceAll("( )+", " ");
+	//	text = text.replaceAll("( )+", " ");
 
-		text = text.replaceAll("\n", " ").replaceAll("\r", " ");
+//		String[] sentences = text.split("\\.\n");
+
+		//text = text.replaceAll("\n", " ").replaceAll("\r", " ");
 
 		String[] sentences = text.split("\\. ");
 
 		// System.out.println("checking "+sentences.length);
 		for (String s : sentences) {
-			// System.out.println(s);
+			 //System.out.println(s);
 			// s.replaceAll(",", "").replaceAll(":", "").replaceAll(";", "");
 			String[] words;
 			try {
 				words = s.replaceAll(",", "").replaceAll(":", "").replaceAll(";", "").replaceAll("\\(", " ").replaceAll("\\)", " ").replaceAll("-", " ").split(" ");
-				for (String w : words) {
+				for (int i = 0; i<words.length; i++)
+				{
+				String w = words[i];
+				boolean check = true;
+				if (i>=1) {
+					check = !isAllUpper(words[i-1]);
+				}
+				if (i<words.length-1) check = check&&(!isAllUpper(words[i+1]));
+				
+				
+				if (check)
 					if (possiblyAcronym(w)) {
+						
+				//		System.out.println(w+" IN "+s);
+						
 						if (!acronymList.contains(w))
 							acronymList.add(w);
 					}
@@ -48,6 +79,18 @@ public class AcronymDetector {
 
 	}
 
+	
+	private static boolean isAllUpper(String s) {
+	    for(char c : s.toCharArray()) {
+	       if(Character.isLetter(c) && Character.isLowerCase(c)) {
+	    	   return false;
+	        }
+	       if (Character.isDigit(c)) return false; 
+	    }
+		
+	    return true;
+	}
+	
 	/**
 	 * @param w
 	 * @return
@@ -65,8 +108,12 @@ public class AcronymDetector {
 	 */
 	private static boolean isAcronym(String s) {
 		boolean isAcronym = true;
+		
+		if (insideIgnoreList(s)) return false;
+		
+		
 		for (char c : s.toCharArray()) {
-			if (Character.isLetter(c) && Character.isLowerCase(c)) {
+			if (Character.isLetter(c) && Character.isLowerCase(c)||(isPunctuation(c))) {
 				isAcronym = false;
 			}
 		}
@@ -76,10 +123,42 @@ public class AcronymDetector {
 			if (Character.isLetter(c))
 				containsLetters = true;
 		}
+		
+		if (s.length()<=2) return false;
 
 		return (isAcronym && containsLetters);
 	}
 
+	  private static boolean insideIgnoreList(String s) {
+
+		  return (s.equalsIgnoreCase("abstract")||s.equalsIgnoreCase("introduction")||s.equalsIgnoreCase("figure")||s.equalsIgnoreCase("table")||
+					s.equalsIgnoreCase("experiments")||s.equalsIgnoreCase("related")||s.equalsIgnoreCase("works"))
+					||s.equalsIgnoreCase("II")
+					||s.equalsIgnoreCase("III")
+					||s.equalsIgnoreCase("IV"); 
+			  
+					
+	}
+
+	public static boolean isPunctuation(char c) {
+	        return c == ','
+	            || c == '.'
+	            || c == '!'
+	            || c == '?'
+	            || c == ':'
+	            || c == ';'
+	            || c =='°'
+	            || c == '$'
+	            || c =='\''
+	            || c=='/'
+	            || c=='’'
+	            || c=='_'
+	            || c=='"'
+	            || c=='”'
+	            || c=='&'
+	            || c==' '
+	            ;
+	    }
 	/**
 	 * @param listOfAcronyms
 	 * @param text
@@ -91,7 +170,7 @@ public class AcronymDetector {
 		
 		LinkedList<Acronym> checkedAcronyms = new LinkedList<Acronym>();
 
-		text = text.replaceAll("\n", " ").replaceAll("\r", " ").replaceAll(",", " ").replaceAll(":", " ").replaceAll(";", " ").replaceAll("\\(", " ").replaceAll("\\)", " ").replaceAll("-", " ");
+		text = text.replaceAll("\n", " ").replaceAll("\r", " ").replaceAll(",", " ").replaceAll(":", " ").replaceAll(";", " ").replaceAll("\\(", " ").replaceAll("\\)", " ").replaceAll("”", " ").replaceAll("\\p{Pd}", " ").replaceAll("[^\\x0A\\x0D\\x20-\\x7E]", "");
 
 		text = text.replaceAll("( )+", " ");
 
@@ -106,10 +185,17 @@ public class AcronymDetector {
 				String[] words = s.split(" ");
 				for (int j = 0; j < words.length; j++) {
 					String w = words[j];
+						// String test  = acronym.replaceAll("[^\\x0A\\x0D\\x20-\\x7E]", "");
+						// String test2 = w.replaceAll("[^\\x0A\\x0D\\x20-\\x7E]", "");
+						
 					if (w.equalsIgnoreCase(acronym)) {
-						/*
-						 * System.out.println(" found " + w + " at "+j);
-						 */boolean definitionBefore = true;
+						boolean print = false; 
+						/*if (acronym.equalsIgnoreCase("ACI­NA")){
+							System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSss " + acronym.trim().length());print = true;
+						}*/
+						if (print)
+						 System.out.println(" found " + w + " at "+j);
+						boolean definitionBefore = true;
 						boolean definitionAfter = true;
 						boolean spelledBefore = false;
 						boolean spelledAfter = false;
@@ -123,19 +209,28 @@ public class AcronymDetector {
 						/*
 						 * System.out.println("CHECKING ACRONYM "+ acronym +" SIZE "+sizeOfAcronym);
 						 */
+						
 						if (definitionBefore || definitionAfter) {
 							if (definitionBefore) {
 								/*
 								 * System.out.println("BEFORE CHECK");
 								 */String[] wordsBefore = new String[sizeOfAcronym];
 								int indexBefore = 0;
+								int numForward = 0;
 								for (int k = j - sizeOfAcronym; k <= j - 1; k++) {
 									try {
-										/*
-										 * System.out.println("checking the list before "+ k+ " "+words[k]);
-										 */
+										if (print)
+										  System.out.println("checking the list before "+ k+ " "+words[k]);
+										 
+										if (k>=0){
+											if (print) System.out.println(words[k]+" "+j);
+											if (isConnectionWord(words[k])) {
+												j++;
+												numForward++;
+											}
+											else{
 										wordsBefore[indexBefore] = words[k];
-										indexBefore++;
+										indexBefore++;}}
 									} catch (Exception e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
@@ -145,6 +240,8 @@ public class AcronymDetector {
 										return checkedAcronyms;
 									}
 								}
+								
+								j=j-numForward;
 								spelledBefore = checkWords(w, wordsBefore);
 
 								if (spelledBefore)
@@ -152,20 +249,24 @@ public class AcronymDetector {
 
 							}
 							if (definitionAfter) {
-								/*
-								 * System.out.println("AFTER CHECK");
-								 */String[] wordsAfter = new String[sizeOfAcronym];
+								if (print)
+								System.out.println("AFTER CHECK");
+								String[] wordsAfter = new String[sizeOfAcronym];
 								int indexAfter = 0;
 								for (int k = j + 1; k <= j + sizeOfAcronym; k++) {
 									try {
+									
 										/*
 										 * System.out.println("checking the list after "+ k+" "+ words[k]);
 										 */
+										if (print) System.out.println(words[k]);
+										if (isConnectionWord(words[k])) j++;
+										else {
 										wordsAfter[indexAfter] = words[k];
-										indexAfter++;
-									} catch (Exception e) {
+										indexAfter++;}}
+									catch (Exception e) {
 										// TODO Auto-generated catch block
-										e.printStackTrace();
+										//e.printStackTrace();
 										currentAcronym.setSpelledOnFirstCheck(false);
 										currentAcronym.setIsSpelledOut(false);
 										checkedAcronyms.add(currentAcronym);
@@ -231,11 +332,15 @@ public class AcronymDetector {
 
 		boolean okSpelling = true;
 
+		w = w.toLowerCase();
+		
 		for (int i = 0; i < wordsAfter.length; i++) {
+			wordsAfter[i]=wordsAfter[i].toLowerCase();
 			/*
 			 * System.out.println("CHECKING ACRONYM " + w + " word " + wordsAfter[i] + " at position " + i+ " " + w.toCharArray()[i] +"!=" +
 			 * wordsAfter[i].toCharArray()[0]);
 			 */
+			if (wordsAfter[i].toCharArray().length>0)
 			if (w.toCharArray()[i] != wordsAfter[i].toCharArray()[0])
 				okSpelling = false;
 		}
@@ -243,4 +348,15 @@ public class AcronymDetector {
 		return okSpelling;
 	}
 
+	public static boolean isConnectionWord(String s){
+		return s.equalsIgnoreCase("to")||
+				s.equalsIgnoreCase("on")||
+				s.equalsIgnoreCase("for")||
+				s.equalsIgnoreCase("from")||
+				s.equalsIgnoreCase("of")||
+				s.equalsIgnoreCase("with")||
+				s.equalsIgnoreCase("the")||
+				s.equalsIgnoreCase("and");
+	}
+	
 }
