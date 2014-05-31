@@ -356,11 +356,24 @@ public class Recommender {
 
 		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
 
-		for (Course c : reqCourses) {
+		LinkedList<Acronym> acronymMerge = new LinkedList<Acronym>();
+		ArrayList<Keyword> keywordMerge = new ArrayList<Keyword>();
+		ArrayList<Keyphrase> keyphraseMerge = new ArrayList<Keyphrase>();
+		
+		for (Course c : reqCourses){
+			acronymMerge.addAll(c.getAcronyms2());
+			keywordMerge.addAll(c.getKeywords());
+			keyphraseMerge.addAll(c.getKeyphrases());
+		}
+		
+		
 			for (String s : canCourses.keySet()) {
-				if (canCourses.get(s) != null)
+				for (Course c : reqCourses) {
+				if (!c.getCode().equalsIgnoreCase(s))
 					selectedCourses.put(s,
-							getWeight(c, canCourses.get(s), reqCourses));
+							getWeight(acronymMerge, canCourses.get(s).getAcronyms2(), 
+									keywordMerge, canCourses.get(s).getKeywords(),
+									keyphraseMerge, canCourses.get(s).getKeyphrases()));
 			}
 		}
 
@@ -413,5 +426,37 @@ public class Recommender {
 		}
 
 		return sortHashMapByValuesD(selectedCourses);
+	}
+
+	public static HashMap<String, Float> sortHashMapByValuesDescending(
+			HashMap<String, Float> passedMap) {
+		List mapKeys = new ArrayList(passedMap.keySet());
+		List mapValues = new ArrayList(passedMap.values());
+		Collections.sort(mapValues);
+		Collections.sort(mapKeys);
+
+		LinkedHashMap sortedMap = new LinkedHashMap();
+
+		Iterator valueIt = mapValues.iterator();
+		while (valueIt.hasNext()) {
+			Object val = valueIt.next();
+			Iterator keyIt = mapKeys.iterator();
+
+			while (keyIt.hasNext()) {
+				Object key = keyIt.next();
+				String comp1 = passedMap.get(key).toString();
+				String comp2 = val.toString();
+
+				if (comp1.equals(comp2)) {
+					passedMap.remove(key);
+					mapKeys.remove(key);
+					sortedMap.put((String) key, (Float) val);
+					break;
+				}
+
+			}
+
+		}
+		return sortedMap;
 	}
 }

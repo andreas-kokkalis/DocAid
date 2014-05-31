@@ -16,10 +16,10 @@ public class RegistrationReader{
 	public LinkedList<String> getCourseCodes() {
 		LinkedList<String> courseCodes = new LinkedList<String>();
 
-		for (String code : detectCourseCodes(inputDocument.getBody()))
+/*		for (String code : detectCourseCodes(inputDocument.getBody()))
 			System.out.println(code);;
-		
-		return courseCodes;
+		*/
+		return detectCourseCodes(inputDocument.getBody());
 	}
 	
 

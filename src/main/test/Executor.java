@@ -3,17 +3,26 @@ package main.test;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.HashMap;
+import java.util.LinkedList;
 
+import org._3pq.jgrapht.event.ConnectedComponentTraversalEvent;
 import org.apache.tika.exception.TikaException;
 import org.xml.sax.SAXException;
 
 import se.kth.ict.docaid.Recommender.Recommender;
+import se.kth.ict.docaid.algorithms.acronyms.Acronym;
+import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
+import se.kth.ict.docaid.algorithms.keywords.Keyword;
+import se.kth.ict.docaid.course.Course;
 import se.kth.ict.docaid.database.CourseFetch;
 import se.kth.ict.docaid.database.DatabaseConnection;
 import se.kth.ict.docaid.documents.InputDocument;
 import se.kth.ict.docaid.documents.WebDocument;
+import se.kth.ict.docaid.filters.StopwordDictionairy;
 import se.kth.ict.docaid.reader.DocumentReader;
+import se.kth.ict.docaid.reader.RegistrationReader;
 
 import aid.project.utils.UtilClass;
 
@@ -70,10 +79,51 @@ public class Executor {
 		
 		System.out.println(Recommender.getWeight(doc, doc2));
 		*/
-		InputDocument thisDoc = UtilClass.getInstance().getInputDocument(new File("testdata/Exercise 1.doc"));
-		 HashMap<String, Float> hM = Recommender.getCourseRecommendation(thisDoc, CourseFetch.retrieveAllCourses(new DatabaseConnection().getConnection()));
+		
+		Connection conn = new DatabaseConnection().getConnection(); 
+		
+		DocumentReader readerReg = new DocumentReader(UtilClass.getInstance().getInputDocument(new File("testdata/test1.pdf")), new StopwordDictionairy());
+		
+		HashMap<String, Float> unOrderedKeyphrases = new HashMap<String, Float>();
+		
+		for (Keyphrase kp : readerReg.getKeyphrases())
+			{
+			unOrderedKeyphrases.put(kp.getPhrase(), (float)kp.getFactor());
+			}
+		
+		HashMap<String, Float> orderedKeyphrases =  Recommender.sortHashMapByValuesDescending(unOrderedKeyphrases);
+		
+		for (String s : orderedKeyphrases.keySet()){
+			System.out.println(s+" "+orderedKeyphrases.get(s));
+		}
+		
+		for (Keyword kw : readerReg.getKeywords())
+			System.out.println(kw.toString() + kw.getTerms());
+		
+		for (Acronym acc: readerReg.getAcronyms())
+			System.out.println(acc.toString());
+			
+		/*LinkedList<Course> consideredCourses = new LinkedList<Course>();
+		
+		for (String s: readerReg.getCourseCodes()){
+			System.out.println("TRYING "+s);
+			Course curCourse = CourseFetch.getCourseData(s, conn);
+			if (curCourse!=null){
+			System.out.println(curCourse.toString2());
+			consideredCourses.add(curCourse);}
+		}
+
+		for (Course c :consideredCourses) System.out.println(c.getCode());
+		
+		HashMap<String, Float> hM = Recommender.getCourseRecommendation(consideredCourses, CourseFetch.retrieveAllCourses(new DatabaseConnection().getConnection()));
 		for (String s : hM.keySet())
 			System.out.println(s+" "+hM.get(s));
+			*/
+		
+		/*InputDocument thisDoc = UtilClass.getInstance().getInputDocument(new File("testdata/Exercise 1.doc"));
+		 HashMap<String, Float> hM = Recommender.getCourseRecommendation(thisDoc, CourseFetch.retrieveAllCourses(new DatabaseConnection().getConnection()));
+		for (String s : hM.keySet())
+			System.out.println(s+" "+hM.get(s));*/
 		
 		/*		StopwordDictionairy stopwords = new StopwordDictionairy();
 		WebReader reader = new WebReader(doc);

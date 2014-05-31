@@ -324,7 +324,7 @@ public class CourseFetch {
 			else
 				course.setLanguage(language);
 
-//			System.out.println(course.toString2());
+		//	System.out.println(course.toString2());
 			
 			results.close();
 			st.close();
@@ -334,6 +334,7 @@ public class CourseFetch {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return course;
 	}
 

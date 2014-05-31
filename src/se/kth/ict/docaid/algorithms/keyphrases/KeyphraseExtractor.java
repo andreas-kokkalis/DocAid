@@ -15,7 +15,7 @@ import weka.core.Instance;
  * 
  */
 public class KeyphraseExtractor {
-	private static final int MAX_TOPICS = 10;
+	private static final int MAX_TOPICS = 50;
 
 	/**
 	 * Extracts the topics using maui-indexer and then formats them in
@@ -38,7 +38,8 @@ public class KeyphraseExtractor {
 				ArrayList<String> stems = new ArrayList<String>(
 						Arrays.asList(stemStream.split(" ")));
 				String phrase = s.stringValue(1);
-				double freq = s.value(4);
+				//System.out.println(phrase +" " +s.value(1)+","+s.value(2)+","+s.value(3)+","+s.value(4)+","+s.value(5)+","+s.value(6));
+				double freq = s.value(2);
 				phrases.add(new Keyphrase(phrase, freq, stems));
 			}
 		} catch (Exception e) {
