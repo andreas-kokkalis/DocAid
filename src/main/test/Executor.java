@@ -80,18 +80,19 @@ public class Executor {
 		System.out.println(Recommender.getWeight(doc, doc2));
 		*/
 
-		LinkedList<File> files = UtilClass.getAcronymTestFiles();
+		LinkedList<File> files = UtilClass.getTestFiles();
 		for (File f : files) {
 			System.out.println("====================================================");
 			System.out.println("TESTING DOCUMENT "+f.getName());
-			//if (f.getName().equalsIgnoreCase("test5.pdf"))
+			if (f.getName().equalsIgnoreCase("testn3.pdf"))
 			try {
 				InputDocument thisDoc = UtilClass.getInstance().getInputDocument(f);
 				
 				//System.out.println(thisDoc.getBody());
 				
 				DocumentReader readerReg = new DocumentReader(thisDoc, new StopwordDictionairy());
-/*				
+				
+				
 				
 				String[] targetedKeywords = UtilClass.getInstance().getTargetedKeywords(thisDoc.getBody());
 				
@@ -125,14 +126,18 @@ public class Executor {
 				
 				for (Keyword kw : readerReg.getKeywords())
 					if (kw.getFrequency()>20)
-					System.out.println(kw.toString() + kw.getTerms());*/
+					System.out.println(kw.toString() + kw.getTerms());
 				
 				System.out.println("-------------------------");
 				System.out.println("DETECTED ACRONYMS");
 				System.out.println("-------------------------");
 				
 				for (Acronym acc: readerReg.getAcronyms())
+					{
 					System.out.println(acc.toString());
+					}
+				
+				/*System.out.println(texty);*/
 				
 				System.out.println("====================================================");
 

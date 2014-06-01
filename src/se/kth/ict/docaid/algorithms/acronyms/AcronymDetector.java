@@ -34,7 +34,7 @@ public class AcronymDetector {
 				if (!isAllUpper(x)) text=text+x+"\n";
 		
 		//text = text.trim();
-		text = text.replaceAll("\n", " ").replaceAll("\r", " ").replaceAll("\t", " ").replaceAll("\b", " ").replaceAll("\f", " ").replaceAll(",", " ").replaceAll(":", " ").replaceAll(";", " ").replaceAll("\\(", " ").replaceAll("\\)", " ").replaceAll("”", " ").replaceAll("\\p{Pd}", " ").replaceAll("[^\\x0A\\x0D\\x20-\\x7E]", "");
+		text= text.replaceAll("\n", " ").replaceAll("\r", " ").replaceAll("\t", " ").replaceAll("\b", " ").replaceAll("\f", " ").replaceAll(",", " ").replaceAll(":", " ").replaceAll(";", " ").replaceAll("\\(", " ").replaceAll("\\)", " ").replaceAll("”", " ").replaceAll("\\p{Pd}", " ").replaceAll("[^\\x0A\\x0D\\x20-\\x7E]", "").replaceAll("=", " ");
 		text = text.replaceAll("( )+", " ");
 	//	text = text.replaceAll("( )+", " ");
 
@@ -170,7 +170,7 @@ public class AcronymDetector {
 		
 		LinkedList<Acronym> checkedAcronyms = new LinkedList<Acronym>();
 
-		text = text.replaceAll("\n", " ").replaceAll("\r", " ").replaceAll(",", " ").replaceAll(":", " ").replaceAll(";", " ").replaceAll("\\(", " ").replaceAll("\\)", " ").replaceAll("”", " ").replaceAll("\\p{Pd}", " ").replaceAll("[^\\x0A\\x0D\\x20-\\x7E]", "");
+		text = text.replaceAll("\n", " ").replaceAll("\r", " ").replaceAll(",", " ").replaceAll(":", " ").replaceAll(";", " ").replaceAll("\\(", " ").replaceAll("\\)", " ").replaceAll("”", " ").replaceAll("\\p{Pd}", " ").replaceAll("[^\\x0A\\x0D\\x20-\\x7E]", "").replaceAll("&", " ");
 
 		text = text.replaceAll("( )+", " ");
 
@@ -190,8 +190,8 @@ public class AcronymDetector {
 						
 					if (w.equalsIgnoreCase(acronym)) {
 						boolean print = false; 
-						/*if (acronym.equalsIgnoreCase("ACI­NA")){
-							System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSss " + acronym.trim().length());print = true;
+						/*if (acronym.equalsIgnoreCase("CIF")){
+							print = true;
 						}*/
 						if (print)
 						 System.out.println(" found " + w + " at "+j);
@@ -349,14 +349,14 @@ public class AcronymDetector {
 	}
 
 	public static boolean isConnectionWord(String s){
-		return s.equalsIgnoreCase("to")||
-				s.equalsIgnoreCase("on")||
-				s.equalsIgnoreCase("for")||
-				s.equalsIgnoreCase("from")||
-				s.equalsIgnoreCase("of")||
-				s.equalsIgnoreCase("with")||
-				s.equalsIgnoreCase("the")||
-				s.equalsIgnoreCase("and");
+		return s.equals("to")||
+				s.equals("on")||
+				s.equals("for")||
+				s.equals("from")||
+				s.equals("of")||
+				s.equals("with")||
+				s.equals("the")||
+				s.equals("and");
 	}
 	
 }
