@@ -4,7 +4,6 @@ package se.kth.ict.docaid.reader;
 import java.util.LinkedList;
 
 import se.kth.ict.docaid.documents.InputDocument;
-import se.kth.ict.docaid.filters.StopwordDictionairy;
 
 public class RegistrationReader{
 	private InputDocument inputDocument;

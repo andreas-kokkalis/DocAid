@@ -2,8 +2,13 @@ package se.kth.ict.docaid.documents;
 
 import ws.palladian.preprocessing.scraping.PageContentExtractorException;
 import ws.palladian.preprocessing.scraping.ReadabilityContentExtractor;
-import aid.project.utils.UtilClass;
 
+/**
+ * Document extracted from the content of a web page.
+ * 
+ * @author andrew
+ *
+ */
 public class WebDocument {
 
 	String title;

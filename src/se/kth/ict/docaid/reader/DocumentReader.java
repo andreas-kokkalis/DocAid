@@ -1,7 +1,7 @@
 package se.kth.ict.docaid.reader;
 
 import se.kth.ict.docaid.documents.InputDocument;
-import se.kth.ict.docaid.filters.StopwordDictionairy;
+import se.kth.ict.docaid.stopwords.StopwordDictionairy;
 
 public class DocumentReader extends Reader{
 	@SuppressWarnings("unused")

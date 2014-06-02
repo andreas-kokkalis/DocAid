@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import se.kth.ict.docaid.algorithms.acronyms.Acronym;
 import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
-import se.kth.ict.docaid.documents.WebDocument;
 import se.kth.ict.docaid.reader.WebReader;
 
 /**

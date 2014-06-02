@@ -3,10 +3,6 @@ package se.kth.ict.docaid.algorithms.acronyms;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import com.ctc.wstx.evt.WProcInstr;
-
-import sun.nio.cs.ext.ISCII91;
-
 /**
  * @author adrian, andrew
  *  

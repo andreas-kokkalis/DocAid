@@ -3,11 +3,9 @@ package main.test;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import org._3pq.jgrapht.event.ConnectedComponentTraversalEvent;
 import org.apache.tika.exception.TikaException;
 import org.xml.sax.SAXException;
 
@@ -15,18 +13,10 @@ import se.kth.ict.docaid.Recommender.Recommender;
 import se.kth.ict.docaid.algorithms.acronyms.Acronym;
 import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
-import se.kth.ict.docaid.course.Course;
-import se.kth.ict.docaid.database.CourseFetch;
-import se.kth.ict.docaid.database.DatabaseConnection;
 import se.kth.ict.docaid.documents.InputDocument;
-import se.kth.ict.docaid.documents.WebDocument;
-import se.kth.ict.docaid.filters.StopwordDictionairy;
+import se.kth.ict.docaid.documents.UtilClass;
 import se.kth.ict.docaid.reader.DocumentReader;
-import se.kth.ict.docaid.reader.RegistrationReader;
-
-import aid.project.utils.UtilClass;
-
-import com.google.common.collect.ImmutableSortedMap;
+import se.kth.ict.docaid.stopwords.StopwordDictionairy;
 
 public class Executor {
 

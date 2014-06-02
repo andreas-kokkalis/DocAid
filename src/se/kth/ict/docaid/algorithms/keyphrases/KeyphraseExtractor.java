@@ -8,8 +8,7 @@ import maui.main.MauiWrapper;
 import weka.core.Instance;
 
 /**
- * Extracts keyphrases from a text source using of <a
- * href="https://code.google.com/p/maui-indexer/">maui-ndexer</a>
+ * Extracts keyphrases from a text source using of <a href="https://code.google.com/p/maui-indexer/">maui-ndexer</a>
  * 
  * @author andrew
  * 
@@ -18,16 +17,13 @@ public class KeyphraseExtractor {
 	private static final int MAX_TOPICS = 50;
 
 	/**
-	 * Extracts the topics using maui-indexer and then formats them in
-	 * keyphrases.
+	 * Extracts the topics using maui-indexer and then formats them in keyphrases.
 	 * 
-	 * @param content
-	 *            The text source from which topics are extracted.
+	 * @param content The text source from which topics are extracted.
 	 * @return A list of Keyphrase topics.
 	 * @throws InvalidTextLengthException
 	 */
-	public static ArrayList<Keyphrase> getKeyphrases(String content)
-			throws InvalidTextLengthException {
+	public static ArrayList<Keyphrase> getKeyphrases(String content) throws InvalidTextLengthException {
 		ArrayList<Keyphrase> phrases = new ArrayList<Keyphrase>();
 		MauiWrapper wrap = new MauiWrapper("", "", "keyphrextr");
 		Instance[] keyphrases;
@@ -35,15 +31,14 @@ public class KeyphraseExtractor {
 			keyphrases = wrap.extractTopicsFromText(content, MAX_TOPICS);
 			for (Instance s : keyphrases) {
 				String stemStream = s.stringValue(0);
-				ArrayList<String> stems = new ArrayList<String>(
-						Arrays.asList(stemStream.split(" ")));
+				ArrayList<String> stems = new ArrayList<String>(Arrays.asList(stemStream.split(" ")));
 				String phrase = s.stringValue(1);
-				//System.out.println(phrase +" " +s.value(1)+","+s.value(2)+","+s.value(3)+","+s.value(4)+","+s.value(5)+","+s.value(6));
+				// System.out.println(phrase +" " +s.value(1)+","+s.value(2)+","+s.value(3)+","+s.value(4)+","+s.value(5)+","+s.value(6));
 				double freq = s.value(2);
 				phrases.add(new Keyphrase(phrase, freq, stems));
 			}
 		} catch (Exception e) {
-			//throw new InvalidTextLengthException(e.getMessage());
+			// throw new InvalidTextLengthException(e.getMessage());
 			return new ArrayList<Keyphrase>();
 		}
 

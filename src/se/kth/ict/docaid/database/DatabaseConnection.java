@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 	private static String dbName = "docaid";
 	private static String dbHost = "localhost";
-	private static String dbUser = "adrian";
-	private static String dbPassword = "adi";
+	private static String dbUser = "gis";
+	private static String dbPassword = "gis";
 	private Connection connection;
 
 	public DatabaseConnection() {

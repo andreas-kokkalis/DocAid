@@ -1,5 +1,11 @@
 package se.kth.ict.docaid.documents;
 
+/**
+ * File document.
+ * 
+ * @author andrew
+ *
+ */
 public class InputDocument {
 
 	String type;

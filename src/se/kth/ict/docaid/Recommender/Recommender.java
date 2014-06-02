@@ -16,9 +16,9 @@ import se.kth.ict.docaid.algorithms.stringcomparison.StringCompare;
 import se.kth.ict.docaid.course.Course;
 import se.kth.ict.docaid.documents.InputDocument;
 import se.kth.ict.docaid.documents.WebDocument;
-import se.kth.ict.docaid.filters.StopwordDictionairy;
 import se.kth.ict.docaid.reader.DocumentReader;
 import se.kth.ict.docaid.reader.WebReader;
+import se.kth.ict.docaid.stopwords.StopwordDictionairy;
 
 public class Recommender {
 
@@ -28,30 +28,21 @@ public class Recommender {
 	/**
 	 * Get weight based on acronyms
 	 * 
-	 * @param requestRec
-	 *            - list of acronyms that need a recommendation
-	 * @param candidateRec
-	 *            - list of acronyms that are a candidate for recommendation
+	 * @param requestRec - list of acronyms that need a recommendation
+	 * @param candidateRec - list of acronyms that are a candidate for recommendation
 	 * @return a value [0..1], where 1 represents a perfect match
 	 */
-	public static float getAcronymWeight(LinkedList<Acronym> requestRec,
-			LinkedList<Acronym> candidateRec) {
+	public static float getAcronymWeight(LinkedList<Acronym> requestRec, LinkedList<Acronym> candidateRec) {
 		int requestSize = requestRec.size();
 
 		int numberOfMatchedAcronyms = 0;
 		for (Acronym reqAcc : requestRec) {
 			if (!shouldBeAvoided(reqAcc.getAcronym()))
 				for (Acronym canAcc : candidateRec) {
-					if (reqAcc.getAcronym().equalsIgnoreCase(
-							canAcc.getAcronym())) {
+					if (reqAcc.getAcronym().equalsIgnoreCase(canAcc.getAcronym())) {
 						if (reqAcc.isSpelledOut()) {
-							if (StringCompare.getComparisonRatcliff(
-									reqAcc.spelloutString(),
-									canAcc.spelloutString()) > ThreshString) {
-								System.out.println(StringCompare
-										.getComparisonLevenshtein(
-												reqAcc.spelloutString(),
-												canAcc.spelloutString()));
+							if (StringCompare.getComparisonRatcliff(reqAcc.spelloutString(), canAcc.spelloutString()) > ThreshString) {
+								System.out.println(StringCompare.getComparisonLevenshtein(reqAcc.spelloutString(), canAcc.spelloutString()));
 								// increment if acronyms represent the same word
 								numberOfMatchedAcronyms++;
 							}
@@ -96,14 +87,11 @@ public class Recommender {
 	/**
 	 * Get weight based on keywords
 	 * 
-	 * @param requestKeywords
-	 *            - list of keywords that need a recommendation
-	 * @param candidateKeywords
-	 *            - list of keywords that are a candidate for recommendation
+	 * @param requestKeywords - list of keywords that need a recommendation
+	 * @param candidateKeywords - list of keywords that are a candidate for recommendation
 	 * @return a value [0..1], where 1 represents a perfect match
 	 */
-	public static float getKeywordWeight(ArrayList<Keyword> requestKeywords,
-			ArrayList<Keyword> candidateKeywords) {
+	public static float getKeywordWeight(ArrayList<Keyword> requestKeywords, ArrayList<Keyword> candidateKeywords) {
 		int requestSize = requestKeywords.size();
 
 		int numberOfMatchedKeywords = 0;
@@ -111,15 +99,10 @@ public class Recommender {
 		for (Keyword reqKey : requestKeywords) {
 			for (Keyword canKey : candidateKeywords) {
 
-				if (StringCompare.getComparisonRatcliff(reqKey.getStem(),
-						canKey.getStem()) > ThreshString) {
+				if (StringCompare.getComparisonRatcliff(reqKey.getStem(), canKey.getStem()) > ThreshString) {
 					/*
-					 * System.out.println(reqKey + " " + canKey);
-					 * System.out.println
-					 * (StringCompare.getComparisonLevenshtein(
-					 * reqKey.getStem(), canKey.getStem()));
-					 * System.out.println(StringCompare.getComparisonRatcliff(
-					 * reqKey.getStem(), canKey.getStem()));
+					 * System.out.println(reqKey + " " + canKey); System.out.println (StringCompare.getComparisonLevenshtein( reqKey.getStem(), canKey.getStem()));
+					 * System.out.println(StringCompare.getComparisonRatcliff( reqKey.getStem(), canKey.getStem()));
 					 */
 					numberOfMatchedKeywords++;
 				}
@@ -135,20 +118,17 @@ public class Recommender {
 	/**
 	 * Get weight based on keyphrases
 	 * 
-	 * @param requestKeyphrases
-	 *            - list of keyphrases that need a recommendation
-	 * @param candidateKeyphrases
-	 *            - list of keyphrases that are a candidate for recommendation
+	 * @param requestKeyphrases - list of keyphrases that need a recommendation
+	 * @param candidateKeyphrases - list of keyphrases that are a candidate for recommendation
 	 * @return a value [0..1], where 1 represents a perfect match
 	 */
-	public static float getKeyphraseWeight(
-			ArrayList<Keyphrase> requestKeyphrases,
-			ArrayList<Keyphrase> candidateKeyphrases) {
+	public static float getKeyphraseWeight(ArrayList<Keyphrase> requestKeyphrases, ArrayList<Keyphrase> candidateKeyphrases) {
 		int requestSize = requestKeyphrases.size();
 		int numberOfMatchedKeyphrases = 0;
 
-		if (candidateKeyphrases==null) return 0;
-		
+		if (candidateKeyphrases == null)
+			return 0;
+
 		for (Keyphrase reqKey : requestKeyphrases) {
 			for (Keyphrase canKey : candidateKeyphrases) {
 				int requestStems = reqKey.getStems().size();
@@ -157,11 +137,9 @@ public class Recommender {
 
 				for (String reqStem : reqKey.getStems())
 					for (String canStem : canKey.getStems()) {
-						if (StringCompare.getComparisonRatcliff(reqStem,
-								canStem) > ThreshString) {
+						if (StringCompare.getComparisonRatcliff(reqStem, canStem) > ThreshString) {
 							/*
-							 * System.out.println("MATCHED STEM " + reqStem +
-							 * " to " + canStem);
+							 * System.out.println("MATCHED STEM " + reqStem + " to " + canStem);
 							 */
 							matchedStems++;
 						}
@@ -169,8 +147,7 @@ public class Recommender {
 				// System.out.println("======================================");
 				if ((float) matchedStems / requestStems > ThreshKeyphraseStem) {
 					/*
-					 * System.out.println(canKey.toString() + " " +
-					 * reqKey.toString());
+					 * System.out.println(canKey.toString() + " " + reqKey.toString());
 					 */
 					numberOfMatchedKeyphrases++;
 				}
@@ -185,24 +162,15 @@ public class Recommender {
 
 	/**
 	 * 
-	 * @param reqAcc
-	 *            - list of acronyms that need a recommendation
-	 * @param canAcc
-	 *            - list of acronyms that are a candidate for recommendation
-	 * @param reqKeyword
-	 *            - list of keywords that need a recommendation
-	 * @param canKeyword
-	 *            - list of keywords that are a candidate for recommendation
-	 * @param reqKeyphrases
-	 *            - list of keyphrases that need a recommendation
-	 * @param canKeyphrase
-	 *            - list of keyphrases that are a candidate for recommendation
+	 * @param reqAcc - list of acronyms that need a recommendation
+	 * @param canAcc - list of acronyms that are a candidate for recommendation
+	 * @param reqKeyword - list of keywords that need a recommendation
+	 * @param canKeyword - list of keywords that are a candidate for recommendation
+	 * @param reqKeyphrases - list of keyphrases that need a recommendation
+	 * @param canKeyphrase - list of keyphrases that are a candidate for recommendation
 	 * @return a value [0..3], where 3 represents a perfect match
 	 */
-	public static float getWeight(LinkedList<Acronym> reqAcc,
-			LinkedList<Acronym> canAcc, ArrayList<Keyword> reqKeyword,
-			ArrayList<Keyword> canKeyword, ArrayList<Keyphrase> reqKeyphrases,
-			ArrayList<Keyphrase> canKeyphrase) {
+	public static float getWeight(LinkedList<Acronym> reqAcc, LinkedList<Acronym> canAcc, ArrayList<Keyword> reqKeyword, ArrayList<Keyword> canKeyword, ArrayList<Keyphrase> reqKeyphrases, ArrayList<Keyphrase> canKeyphrase) {
 
 		float acronym = 0;
 		float keyword = 0;
@@ -222,10 +190,8 @@ public class Recommender {
 	/**
 	 * Get weight based on documents
 	 * 
-	 * @param reqDoc
-	 *            - the document that needs a recommendation
-	 * @param canDoc
-	 *            - the document that is a candidate for recommendation
+	 * @param reqDoc - the document that needs a recommendation
+	 * @param canDoc - the document that is a candidate for recommendation
 	 * @return a value [0..3], where 3 represents a perfect match
 	 */
 	public static float getWeight(InputDocument reqDoc, InputDocument canDoc) {
@@ -233,68 +199,52 @@ public class Recommender {
 		DocumentReader reqReader = new DocumentReader(reqDoc, stopwords);
 		DocumentReader canReader = new DocumentReader(canDoc, stopwords);
 
-		return getWeight(reqReader.getAcronyms(), canReader.getAcronyms(),
-				reqReader.getKeywords(), canReader.getKeywords(),
-				reqReader.getKeyphrases(), canReader.getKeyphrases());
+		return getWeight(reqReader.getAcronyms(), canReader.getAcronyms(), reqReader.getKeywords(), canReader.getKeywords(), reqReader.getKeyphrases(), canReader.getKeyphrases());
 	}
 
 	/**
 	 * Get weight based on web documents
 	 * 
-	 * @param reqDoc
-	 *            - the document that needs a recommendation
-	 * @param canDoc
-	 *            - the document that is a candidate for recommendation
+	 * @param reqDoc - the document that needs a recommendation
+	 * @param canDoc - the document that is a candidate for recommendation
 	 * @return a value [0..3], where 3 represents a perfect match
 	 */
 	public static float getWeight(WebDocument reqDoc, WebDocument canDoc) {
 		WebReader reqReader = new WebReader(reqDoc);
 		WebReader canReader = new WebReader(canDoc);
 
-		return getWeight(reqReader.getAcronyms(), canReader.getAcronyms(),
-				reqReader.getKeywords(), canReader.getKeywords(),
-				reqReader.getKeyphrases(), canReader.getKeyphrases());
+		return getWeight(reqReader.getAcronyms(), canReader.getAcronyms(), reqReader.getKeywords(), canReader.getKeywords(), reqReader.getKeyphrases(), canReader.getKeyphrases());
 	}
 
 	/**
 	 * Get weight based on web document and a course
 	 * 
-	 * @param reqDoc
-	 *            - the document that needs a recommendation
-	 * @param canDoc
-	 *            - the course that is a candidate for recommendation
+	 * @param reqDoc - the document that needs a recommendation
+	 * @param canDoc - the course that is a candidate for recommendation
 	 * @return a value [0..3], where 3 represents a perfect match
 	 */
 	public static float getWeight(WebReader reqReader, Course canDoc) {
 
-		return getWeight(reqReader.getAcronyms(), canDoc.getAcronyms2(),
-				reqReader.getKeywords(), canDoc.getKeywords(),
-				reqReader.getKeyphrases(), canDoc.getKeyphrases());
+		return getWeight(reqReader.getAcronyms(), canDoc.getAcronyms2(), reqReader.getKeywords(), canDoc.getKeywords(), reqReader.getKeyphrases(), canDoc.getKeyphrases());
 	}
 
 	/**
 	 * Get weight based on web document and a course
 	 * 
-	 * @param reqDoc
-	 *            - the document that needs a recommendation
-	 * @param canDoc
-	 *            - the course that is a candidate for recommendation
+	 * @param reqDoc - the document that needs a recommendation
+	 * @param canDoc - the course that is a candidate for recommendation
 	 * @return a value [0..3], where 3 represents a perfect match
 	 */
 	public static float getWeight(DocumentReader reqReader, Course canDoc) {
 
-		return getWeight(reqReader.getAcronyms(), canDoc.getAcronyms2(),
-				reqReader.getKeywords(), canDoc.getKeywords(),
-				reqReader.getKeyphrases(), canDoc.getKeyphrases());
+		return getWeight(reqReader.getAcronyms(), canDoc.getAcronyms2(), reqReader.getKeywords(), canDoc.getKeywords(), reqReader.getKeyphrases(), canDoc.getKeyphrases());
 	}
 
-	public static HashMap<String, Float> getCourseRecommendation(
-			InputDocument inputDoc, HashMap<String, Course> courses) {
+	public static HashMap<String, Float> getCourseRecommendation(InputDocument inputDoc, HashMap<String, Course> courses) {
 
 		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
 
-		DocumentReader inputReader = new DocumentReader(inputDoc,
-				new StopwordDictionairy());
+		DocumentReader inputReader = new DocumentReader(inputDoc, new StopwordDictionairy());
 
 		for (String s : courses.keySet()) {
 			selectedCourses.put(s, getWeight(inputReader, courses.get(s)));
@@ -338,8 +288,7 @@ public class Recommender {
 		return sortedMap;
 	}
 
-	public static HashMap<String, Float> getCourseRecommendation(
-			WebDocument inputDoc, HashMap<String, Course> courses) {
+	public static HashMap<String, Float> getCourseRecommendation(WebDocument inputDoc, HashMap<String, Course> courses) {
 
 		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
 		WebReader reqReader = new WebReader(inputDoc);
@@ -351,49 +300,40 @@ public class Recommender {
 		return sortHashMapByValuesD(selectedCourses);
 	}
 
-	public static HashMap<String, Float> getCourseRecommendation(
-			LinkedList<Course> reqCourses, HashMap<String, Course> canCourses) {
+	public static HashMap<String, Float> getCourseRecommendation(LinkedList<Course> reqCourses, HashMap<String, Course> canCourses) {
 
 		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
 
 		LinkedList<Acronym> acronymMerge = new LinkedList<Acronym>();
 		ArrayList<Keyword> keywordMerge = new ArrayList<Keyword>();
 		ArrayList<Keyphrase> keyphraseMerge = new ArrayList<Keyphrase>();
-		
-		for (Course c : reqCourses){
+
+		for (Course c : reqCourses) {
 			acronymMerge.addAll(c.getAcronyms2());
 			keywordMerge.addAll(c.getKeywords());
 			keyphraseMerge.addAll(c.getKeyphrases());
 		}
-		
-		
-			for (String s : canCourses.keySet()) {
-				for (Course c : reqCourses) {
+
+		for (String s : canCourses.keySet()) {
+			for (Course c : reqCourses) {
 				if (!c.getCode().equalsIgnoreCase(s))
-					selectedCourses.put(s,
-							getWeight(acronymMerge, canCourses.get(s).getAcronyms2(), 
-									keywordMerge, canCourses.get(s).getKeywords(),
-									keyphraseMerge, canCourses.get(s).getKeyphrases()));
+					selectedCourses.put(s, getWeight(acronymMerge, canCourses.get(s).getAcronyms2(), keywordMerge, canCourses.get(s).getKeywords(), keyphraseMerge, canCourses.get(s).getKeyphrases()));
 			}
 		}
 
 		return sortHashMapByValuesD(selectedCourses);
 	}
 
-	public static Float getWeight(Course c2, Course canCourse,
-			LinkedList<Course> reqCourses) {
+	public static Float getWeight(Course c2, Course canCourse, LinkedList<Course> reqCourses) {
 
 		// do not recommend the same courses
 		for (Course c : reqCourses)
 			if (c.getCode().equalsIgnoreCase(canCourse.getCode()))
 				return 0f;
-		return getWeight(c2.getAcronyms2(), canCourse.getAcronyms2(),
-				c2.getKeywords(), canCourse.getKeywords(), c2.getKeyphrases(),
-				canCourse.getKeyphrases());
+		return getWeight(c2.getAcronyms2(), canCourse.getAcronyms2(), c2.getKeywords(), canCourse.getKeywords(), c2.getKeyphrases(), canCourse.getKeyphrases());
 	}
 
-	public static HashMap<String, Float> getCourseAcronymRecommendation(
-			InputDocument inputDoc, HashMap<String, Course> courses) {
+	public static HashMap<String, Float> getCourseAcronymRecommendation(InputDocument inputDoc, HashMap<String, Course> courses) {
 		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
 		DocumentReader reqReader = new DocumentReader(inputDoc, new StopwordDictionairy());
 		for (String s : courses.keySet()) {
@@ -404,8 +344,7 @@ public class Recommender {
 		return sortHashMapByValuesD(selectedCourses);
 	}
 
-	public static HashMap<String, Float> getCourseKeywordRecommendation(
-			InputDocument inputDoc, HashMap<String, Course> courses) {
+	public static HashMap<String, Float> getCourseKeywordRecommendation(InputDocument inputDoc, HashMap<String, Course> courses) {
 		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
 		DocumentReader reqReader = new DocumentReader(inputDoc, new StopwordDictionairy());
 		for (String s : courses.keySet()) {
@@ -416,8 +355,7 @@ public class Recommender {
 		return sortHashMapByValuesD(selectedCourses);
 	}
 
-	public static HashMap<String, Float> getCourseKeyphraseRecommendation(
-			InputDocument inputDoc, HashMap<String, Course> courses) {
+	public static HashMap<String, Float> getCourseKeyphraseRecommendation(InputDocument inputDoc, HashMap<String, Course> courses) {
 		HashMap<String, Float> selectedCourses = new HashMap<String, Float>();
 		DocumentReader reqReader = new DocumentReader(inputDoc, new StopwordDictionairy());
 		for (String s : courses.keySet()) {
@@ -428,8 +366,7 @@ public class Recommender {
 		return sortHashMapByValuesD(selectedCourses);
 	}
 
-	public static HashMap<String, Float> sortHashMapByValuesDescending(
-			HashMap<String, Float> passedMap) {
+	public static HashMap<String, Float> sortHashMapByValuesDescending(HashMap<String, Float> passedMap) {
 		List mapKeys = new ArrayList(passedMap.keySet());
 		List mapValues = new ArrayList(passedMap.values());
 		Collections.sort(mapValues);
