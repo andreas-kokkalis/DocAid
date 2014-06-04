@@ -7,7 +7,7 @@ import ws.palladian.preprocessing.scraping.ReadabilityContentExtractor;
  * Document extracted from the content of a web page.
  * 
  * @author andrew
- *
+ * 
  */
 public class WebDocument {
 
@@ -20,25 +20,11 @@ public class WebDocument {
 	 * 
 	 * @param url A String that represents the url of the website that stores the course directory, i.e.,
 	 *            http://www.kth.se/student/kurser/kurs/ID2216?startterm=20131&l=en
+	 * @throws PageContentExtractorException 
 	 */
-	public WebDocument(final String url) {
+	public WebDocument(final String url) throws PageContentExtractorException {
 		this.url = url;
-		Thread t = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				generateContent(url);
-			}
-
-		});
-		t.start();
-		try {
-			t.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		generateContent(url);
 	}
 
 	public String getTitle() {
@@ -57,17 +43,12 @@ public class WebDocument {
 		this.body = body;
 	}
 
-	private void generateContent(String url) {
+	private void generateContent(String url) throws PageContentExtractorException {
 		@SuppressWarnings("static-access")
 		ReadabilityContentExtractor extractor = UtilClass.getInstance().getExtractor();
-		try {
-			extractor.setDocument(this.url);
-			setTitle(extractor.getResultTitle());
-			setBody(extractor.getResultText());
-		} catch (PageContentExtractorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		extractor.setDocument(this.url);
+		setTitle(extractor.getResultTitle());
+		setBody(extractor.getResultText());
 	}
 
 	/**

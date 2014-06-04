@@ -8,6 +8,7 @@ import se.kth.ict.docaid.filters.KeywordFilterer;
 import se.kth.ict.docaid.reader.Reader;
 import se.kth.ict.docaid.reader.WebReader;
 import se.kth.ict.docaid.stopwords.StopwordDictionairy;
+import ws.palladian.preprocessing.scraping.PageContentExtractorException;
 
 /**
  * Parses a course home page to retrieve data such as keywords, keyphrases and acronyms.
@@ -24,8 +25,9 @@ public class CourseHomePageParser {
 	 * 
 	 * @param course The course to be updated with data retrieved for its' homepage. 
 	 * @param stopwords The list of stopwords used to filter out keywords and keyphrases.
+	 * @throws PageContentExtractorException 
 	 */
-	public static void updateCourseInfo(Course course, StopwordDictionairy stopwords) {
+	public static void updateCourseInfo(Course course, StopwordDictionairy stopwords) throws PageContentExtractorException {
 		String url = constructURL(course.getCode());
 		
 		WebDocument doc = new WebDocument(url);

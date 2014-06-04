@@ -24,6 +24,7 @@ import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import se.kth.ict.docaid.exceptions.UnsupportedFileException;
 import ws.palladian.preprocessing.scraping.ReadabilityContentExtractor;
 
 /**
@@ -79,7 +80,7 @@ public class UtilClass {
 		return mimetype.getSubtype();
 	}
 
-	public InputDocument getInputDocument(File f) throws FileNotFoundException, IOException, SAXException, TikaException {
+	public InputDocument getInputDocument(File f) throws FileNotFoundException, IOException, SAXException, TikaException, UnsupportedFileException {
 		if (getTypeOfFile(f).equalsIgnoreCase(DOCFILE))
 			return createDocDocument(f);
 		else if (getTypeOfFile(f).equalsIgnoreCase(ODTFILE))
@@ -88,7 +89,7 @@ public class UtilClass {
 			return createPdfDocument(f);
 		else if(getTypeOfFile(f).equalsIgnoreCase(PLAINFILE))
 			return createPlainFile(f);
-		throw new NullPointerException("da fuck are you doing?");
+		throw new UnsupportedFileException("File type " + getTypeOfFile(f) + " is not supported.");
 	}
 
 	private InputDocument createPlainFile(File f) {

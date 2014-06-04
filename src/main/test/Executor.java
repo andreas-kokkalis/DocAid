@@ -15,6 +15,7 @@ import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
 import se.kth.ict.docaid.documents.InputDocument;
 import se.kth.ict.docaid.documents.UtilClass;
+import se.kth.ict.docaid.exceptions.UnsupportedFileException;
 import se.kth.ict.docaid.reader.DocumentReader;
 import se.kth.ict.docaid.stopwords.StopwordDictionairy;
 
@@ -142,6 +143,9 @@ public class Executor {
 				e.printStackTrace();
 			} catch (NullPointerException e) {
 				System.out.println(e + "\n" + "cobra taka taka");
+			}
+			catch (UnsupportedFileException e) {
+				e.printStackTrace();
 			}
 		}
 		
