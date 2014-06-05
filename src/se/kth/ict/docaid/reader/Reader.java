@@ -14,9 +14,13 @@ import se.kth.ict.docaid.algorithms.keywords.KeywordExtractor;
 import se.kth.ict.docaid.exceptions.InvalidTextLengthException;
 
 /**
- * @author andrew
+ * Reader takes a text input, and extracts keywords, keyphrases and acronyms.
+ * <p>Parent class of the Document and Web reader</p>
+ * <p>It is used only when extracting meta-data for courses to populate the database.</p>
  * 
- *         Reader takes a text input, and extracts keywords, keyphrases and acronyms.
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ * 
  */
 public class Reader {
 	private String content;
@@ -26,6 +30,11 @@ public class Reader {
 	private ArrayList<String> wordList;
 	private HashMap<String, String> translatedWordList;
 
+	/**
+	 * Computes keywords, keyphrases and acronyms for a text source.
+	 * 
+	 * @param content The text source
+	 */
 	public Reader(String content) {
 		this.content = content;
 		try {
@@ -56,7 +65,7 @@ public class Reader {
 				setAcronyms(AcronymDetector.checkAcronymsOnSight(content));
 			else
 				setAcronyms(new LinkedList<Acronym>());
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InvalidTextLengthException e) {
@@ -68,12 +77,12 @@ public class Reader {
 	}
 
 	public boolean containsKeyword(String stem) {
-		for(Keyword keyword: getKeywords()) 
-			if(keyword.getStem().equals(stem))
+		for (Keyword keyword : getKeywords())
+			if (keyword.getStem().equals(stem))
 				return true;
 		return false;
 	}
-	
+
 	public String getContent() {
 		return content;
 	}
@@ -91,9 +100,10 @@ public class Reader {
 	}
 
 	public ArrayList<Keyphrase> getKeyphrases() {
-		
-		if (keyphrases==null) return new ArrayList<Keyphrase>();
-		
+
+		if (keyphrases == null)
+			return new ArrayList<Keyphrase>();
+
 		return keyphrases;
 	}
 

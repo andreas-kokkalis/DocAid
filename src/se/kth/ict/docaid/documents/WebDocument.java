@@ -4,10 +4,11 @@ import ws.palladian.preprocessing.scraping.PageContentExtractorException;
 import ws.palladian.preprocessing.scraping.ReadabilityContentExtractor;
 
 /**
- * Document extracted from the content of a web page.
+ * Document extracted from the content of a web page. It used the ReadabilityContentExtractor from palladian to parse the input.
  * 
- * @author andrew
- * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ *
  */
 public class WebDocument {
 
@@ -20,7 +21,7 @@ public class WebDocument {
 	 * 
 	 * @param url A String that represents the url of the website that stores the course directory, i.e.,
 	 *            http://www.kth.se/student/kurser/kurs/ID2216?startterm=20131&l=en
-	 * @throws PageContentExtractorException 
+	 * @throws PageContentExtractorException if the url cannot be parsed.
 	 */
 	public WebDocument(final String url) throws PageContentExtractorException {
 		this.url = url;

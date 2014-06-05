@@ -17,8 +17,9 @@ import se.kth.ict.docaid.algorithms.keywords.Keyword;
 /**
  * Class with static methods for retrieving information for courses from the database.
  * 
- * @author andrew
- *
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ * 
  */
 public class FetchCourses {
 	/**
@@ -137,7 +138,7 @@ public class FetchCourses {
 		return id;
 	}
 
-	/** 
+	/**
 	 * Checks if an acronym exists in the db
 	 * 
 	 * @param acronym The acronym to check if exists in the db.
@@ -321,8 +322,8 @@ public class FetchCourses {
 			else
 				course.setLanguage(language);
 
-		//	System.out.println(course.toString2());
-			
+			// System.out.println(course.toString2());
+
 			results.close();
 			st.close();
 			course.setKeywords(fetchCourseKeywords(course.getCode(), connection));
@@ -331,7 +332,7 @@ public class FetchCourses {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return course;
 	}
 
@@ -411,7 +412,7 @@ public class FetchCourses {
 	 */
 	private static ArrayList<Acronym> fetchCourseAcronyms(String courseCode, Connection connection) {
 		ArrayList<Acronym> acronyms = new ArrayList<Acronym>();
-		String query = "SELECT a.acron, a.description FROM acronyms a, acronym_ref r WHERE r.code = '"+courseCode+"' and r.aid = a.aid";
+		String query = "SELECT a.acron, a.description FROM acronyms a, acronym_ref r WHERE r.code = '" + courseCode + "' and r.aid = a.aid";
 		try {
 			Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet results = st.executeQuery(query);
@@ -448,7 +449,7 @@ public class FetchCourses {
 			while (results.next()) {
 				String code = results.getString("code");
 				Course course = getCourseData(code, connection);
-				//System.out.println(course.toString2());
+				// System.out.println(course.toString2());
 				courses.put(code, course);
 			}
 			results.close();
@@ -458,5 +459,5 @@ public class FetchCourses {
 		}
 		return courses;
 	}
-	
+
 }

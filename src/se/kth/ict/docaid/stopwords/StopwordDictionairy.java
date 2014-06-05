@@ -1,4 +1,4 @@
-package se.kth.ict.docaid.stopwords; 
+package se.kth.ict.docaid.stopwords;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,16 +8,21 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 
 /**
- *  Loads english, swedish and relevant to courses stopwords from the corresponding files.
+ * Loads English, Swedish and relevant to courses stopwords from the corresponding files.
+ * It can be used to read from the files and populate the database.
+ * <p>It is faster to use the database than iterate sequentially a large dictionary to find a match.</p>
  * 
- * @author andrew
- *
+ * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ * 
  */
+@Deprecated
 public class StopwordDictionairy {
 	private HashSet<String> stopwordsSv;
 	private HashSet<String> stopwordsEn;
 	private HashSet<String> stopwordsCourse;
-	
+
 	public StopwordDictionairy() {
 		stopwordsSv = new HashSet<String>();
 		File fileSv = new File("data/stopwords/stopwords_sv.txt");
@@ -33,7 +38,7 @@ public class StopwordDictionairy {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		stopwordsEn = new HashSet<String>();
 		File txtEn = new File("data/stopwords/stopwords_en.txt");
 		InputStreamReader isEn;
@@ -48,7 +53,7 @@ public class StopwordDictionairy {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		stopwordsCourse = new HashSet<String>();
 		File txtCourse = new File("data/stopwords/course_stopwords.txt");
 		InputStreamReader isCourse;

@@ -18,7 +18,7 @@ import se.kth.ict.docaid.documents.UtilClass;
 import se.kth.ict.docaid.exceptions.UnsupportedFileException;
 import se.kth.ict.docaid.reader.DocumentReader;
 import se.kth.ict.docaid.stopwords.StopwordDictionairy;
-
+@Deprecated
 public class Executor {
 
 	// static Version LUCENE_VERSION = Version.LUCENE_CURRENT;

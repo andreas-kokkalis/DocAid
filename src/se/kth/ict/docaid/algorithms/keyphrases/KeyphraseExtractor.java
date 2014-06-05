@@ -8,9 +8,11 @@ import maui.main.MauiWrapper;
 import weka.core.Instance;
 
 /**
+ * 
  * Extracts keyphrases from a text source using of <a href="https://code.google.com/p/maui-indexer/">maui-ndexer</a>
  * 
- * @author andrew
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
  * 
  */
 public class KeyphraseExtractor {

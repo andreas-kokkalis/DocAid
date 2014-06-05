@@ -2,8 +2,18 @@ package se.kth.ict.docaid.Recommender;
 
 import java.util.ArrayList;
 
+/**
+ * Contains the course instructor recommendations along with the recommendation weights.
+ * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ *
+ */
 public class RecommendedTutor {
 
+	/**
+	 * The name of the instructor.
+	 */
 	String code;
 	double acronymWeight;
 	double keywordWeight;
@@ -84,11 +94,11 @@ public class RecommendedTutor {
 
 	@Override
 	public String toString() {
-		return "RecommendedTutor [code=" + code + ", acronymWeight="
-				+ acronymWeight + ", keywordWeight=" + keywordWeight
-				+ ", keyphraseWeight=" + keyphraseWeight + ", acronymList="
-				+ acronymList + ", keywordList=" + keywordList
-				+ ", keyphraseList=" + keyphraseList + "]";
+		return "RecommendedTutor \t[code=" + code + ", \tacronymWeight="
+				+ acronymWeight + ", \tkeywordWeight=" + keywordWeight
+				+ ", \tkeyphraseWeight=" + keyphraseWeight + ", \tacronymList="
+				+ acronymList + ", \tkeywordList=" + keywordList
+				+ ", \tkeyphraseList=" + keyphraseList + "]";
 	}
 	
 	

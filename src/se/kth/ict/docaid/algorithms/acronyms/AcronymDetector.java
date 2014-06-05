@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * @author adrian, andrew
- *  
+ * The acronym detector class parses a text source and identifies acronyms.
+ * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ *
  */
 public class AcronymDetector {
 	private static HashMap<String, Boolean> acronymCheck = new HashMap<String, Boolean>();

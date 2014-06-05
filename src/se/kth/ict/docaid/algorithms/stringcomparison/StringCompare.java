@@ -1,5 +1,10 @@
 package se.kth.ict.docaid.algorithms.stringcomparison;
 
+/**
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ *
+ */
 public class StringCompare {
 
 	private static float tcnt;

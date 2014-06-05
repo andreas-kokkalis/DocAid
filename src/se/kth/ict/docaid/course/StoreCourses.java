@@ -12,6 +12,14 @@ import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
 import se.kth.ict.docaid.database.DatabaseConnection;
 
+/**
+ * Stores the course meta data in the database. Assumes the tables exist.
+ * 
+ * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ *
+ */
 public class StoreCourses {
 
 	/**

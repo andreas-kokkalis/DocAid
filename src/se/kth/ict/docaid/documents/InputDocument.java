@@ -1,9 +1,11 @@
 package se.kth.ict.docaid.documents;
 
+
 /**
- * File document.
+ * Input document is a file read from disk. Instances of this class are created by the UtilClass in the same package.
  * 
- * @author andrew
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
  *
  */
 public class InputDocument {

@@ -1,12 +1,10 @@
 package se.kth.ict.docaid.Recommender;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -15,6 +13,14 @@ import se.kth.ict.docaid.algorithms.keyphrases.Keyphrase;
 import se.kth.ict.docaid.algorithms.keywords.Keyword;
 import se.kth.ict.docaid.database.DatabaseConnection;
 
+/**
+ * Course and Tutor recommendations are implemented in the database as PL/pgSQL functions. This class calls the corresponding functions, parses the results and prepares
+ * hash maps with the recommendations for easy printing to the user.
+ * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ * 
+ */
 public class DatabaseRecommender {
 
 	static Connection connection = null;

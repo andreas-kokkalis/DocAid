@@ -9,10 +9,10 @@ import se.kth.ict.docaid.stopwords.StopwordDictionairy;
 import se.kth.ict.docaid.stopwords.FetchStopwords;
 
 /**
- * 
  * Applies a set of filtered on the extracted list of keywords.
  * 
- * @author andrew
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
  * 
  */
 public class KeywordFilterer {

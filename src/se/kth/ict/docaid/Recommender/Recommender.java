@@ -19,6 +19,15 @@ import se.kth.ict.docaid.reader.DocumentReader;
 import se.kth.ict.docaid.reader.WebReader;
 import se.kth.ict.docaid.stopwords.StopwordDictionairy;
 
+/**
+ * Implements the recommendations in the main memory. 
+ * <p>This implementation does not use the database. Not only the recommendations are not accurate, but the method is not efficinet.</p>
+ * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ *
+ */
+@Deprecated
 public class Recommender {
 
 	public static float ThreshString = 0.7f;

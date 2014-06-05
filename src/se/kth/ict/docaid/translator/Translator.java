@@ -15,6 +15,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Translator parses a text input and uses MyMemory - Translation Memory api to translate it to swedish.
+ * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ *
+ */
 public class Translator {
 
 	/**

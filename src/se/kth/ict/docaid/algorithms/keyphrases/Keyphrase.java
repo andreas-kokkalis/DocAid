@@ -3,6 +3,13 @@ package se.kth.ict.docaid.algorithms.keyphrases;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * The class stores information about a key phrase.
+ * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ *
+ */
 public class Keyphrase {
 	private String phrase;
 	private double factor;

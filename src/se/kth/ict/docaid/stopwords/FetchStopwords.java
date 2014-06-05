@@ -8,7 +8,8 @@ import java.sql.SQLException;
 /**
  * Retrieves stopwords from the database.
  * 
- * @author andrew
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
  *
  */
 public class FetchStopwords {

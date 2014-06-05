@@ -8,10 +8,11 @@ import se.kth.ict.docaid.stopwords.StopwordDictionairy;
 import se.kth.ict.docaid.stopwords.FetchStopwords;
 
 /**
- * Filters keyphrases that contain stopwords from a given list.
- * <p>It is completely useless.</p>
+ * * Filters keyphrases that contain stopwords from a given list.
+ * <p>It is completely useless because keyphrases should not be filtered on stopwods.</p>
  * 
- * @author andrew
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
  *
  */
 public class KeyphraseFilterer {

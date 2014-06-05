@@ -23,6 +23,10 @@ import org.apache.lucene.util.Version;
  * Guesses keywords from an input string, based on the frequency of the words.
  * 
  * @see <a href="http://lucene.apache.org/">http://lucene.apache.org/</a>
+ * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ * 
  */
 public class KeywordExtractor {
 
@@ -36,7 +40,7 @@ public class KeywordExtractor {
 	 * @return The stem of the given term.
 	 * @throws IOException If an I/O error occured.
 	 */
-	private static String stemmize(String term) throws IOException { 
+	private static String stemmize(String term) throws IOException {
 		// tokenize term
 		TokenStream tokenStream = new ClassicTokenizer(LUCENE_VERSION, new StringReader(term));
 		// stemmize
@@ -49,9 +53,9 @@ public class KeywordExtractor {
 			// add it in the dedicated set (to keep unicity)
 			stems.add(token.toString());
 		}
-		
+
 		tokenStream.close();
-		
+
 		// if no stem or 2+ stems have been found, return null
 		if (stems.size() != 1) {
 			return null;
@@ -63,7 +67,7 @@ public class KeywordExtractor {
 		if (!stem.matches("[\\w-]+")) {
 			return null;
 		}
-		
+
 		return stem;
 	}
 
@@ -132,8 +136,5 @@ public class KeywordExtractor {
 		tokenStream.close();
 		return keywords;
 	}
-
-	
-	
 
 }

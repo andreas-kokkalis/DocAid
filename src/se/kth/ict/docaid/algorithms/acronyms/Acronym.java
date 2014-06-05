@@ -1,12 +1,25 @@
 package se.kth.ict.docaid.algorithms.acronyms;
 
+/**
+ * The class contains information for an extracted acronym.
+ * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ *
+ */
 public class Acronym {
 	private String acronym;
 	private String[] spelledOut;
 	private boolean isSpelledOut;
 	private boolean isSpelledOnFirstCheck;
-	private String description;
+	private String spelledOutString;
 
+	/**
+	 * @param acronym The acronym.
+	 * @param spelledOut The acronym spelled out.
+	 * @param isSpelledOut True if acronym is spelled out.
+	 * @param isSpelledOnFirstCheck True if acronym is spelled out in first use.
+	 */
 	public Acronym(String acronym, String[] spelledOut, boolean isSpelledOut, boolean isSpelledOnFirstCheck) {
 		super();
 		this.acronym = acronym;
@@ -15,11 +28,20 @@ public class Acronym {
 		this.isSpelledOnFirstCheck = isSpelledOnFirstCheck;
 	}
 
-	public Acronym (String acronym, String description) {
+	/**
+	 * This constructor is used only in the FetchCourses class, when retrieving from the database.
+	 * 
+	 * @param acronym The acronym
+	 * @param spelledOString The acronym spelled out.
+	 */
+	public Acronym (String acronym, String spelledOString) {
 		this.acronym = acronym;
-		this.setDescription(description);
+		this.spelledOutString = spelledOString;
 	}
 	
+	/**
+	 * @param acronym The acronym
+	 */
 	public Acronym(String acronym) {
 		super();
 		this.acronym = acronym;
@@ -62,14 +84,6 @@ public class Acronym {
 		return st;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	@Override
 	public String toString() {
 
@@ -80,10 +94,10 @@ public class Acronym {
 				objs = objs + " " + s;
 		else
 			objs = "not spelled out";
-		if(description == null)
+		if(spelledOutString == null)
 			return "Acronym [acronym=" + acronym + ", spelledOut=" + objs + ", isSpelledOut=" + isSpelledOut + ", isSpelledOnFirstCheck=" + isSpelledOnFirstCheck + "]";
 		else
-			return "Acronym [acronym=" + acronym + " spelledOut=" + description;
+			return "Acronym [acronym=" + acronym + " spelledOut=" + spelledOutString;
 	}
 
 	public boolean isSpelledOnFirstCheck() {
@@ -92,6 +106,18 @@ public class Acronym {
 
 	public void setSpelledOnFirstCheck(boolean isSpelledOnFirstCheck) {
 		this.isSpelledOnFirstCheck = isSpelledOnFirstCheck;
+	}
+
+	public String getSpelledOutString() {
+		return spelledOutString;
+	}
+
+	public void setSpelledOutString(String spelledOutString) {
+		this.spelledOutString = spelledOutString;
+	}
+
+	public void setSpelledOut(boolean isSpelledOut) {
+		this.isSpelledOut = isSpelledOut;
 	}
 
 }

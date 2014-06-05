@@ -12,7 +12,8 @@ import se.kth.ict.docaid.reader.WebReader;
  * The class holds information about a course. It contains all information extracted from the XML web page of the course, along with an instance of the class reader. The
  * reader contains extracted keywords, keyphrases and abbreviations from the hope page of the course.
  * 
- * @author andrew
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
  * 
  */
 public class Course {
@@ -21,9 +22,9 @@ public class Course {
 	 */
 	private String code;
 	/**
-	 * // The course round.
+	 * The course round.
 	 */
-	private int round; // TODO: what is this?
+	private int round; 
 	/**
 	 * If course is cancelled value is true.
 	 */
@@ -273,10 +274,10 @@ public class Course {
 	public ArrayList<Acronym> getAcronyms() {
 		return acronyms;
 	}
-	
+
 	public LinkedList<Acronym> getAcronyms2() {
-		if (acronyms!=null)
-		return new LinkedList<>(acronyms);
+		if (acronyms != null)
+			return new LinkedList<>(acronyms);
 		return new LinkedList<Acronym>();
 	}
 
@@ -342,17 +343,17 @@ public class Course {
 		st.append("Recruitement text En:").append("\t").append(recruitmentTextEn).append("\n");
 		st.append("Recruitement text Sv:").append("\t").append(recruitmentTextSv).append("\n");
 		st.append("URL:").append("\t\t\t").append(courseURL).append("\n");
-		if(getKeywords() != null) {
+		if (getKeywords() != null) {
 			st.append("Keywords: ").append("\n");
 			for (Keyword keyword : getKeywords())
 				st.append(keyword.toString()).append("\n");
 		}
-		if(getKeyphrases() != null) {
+		if (getKeyphrases() != null) {
 			st.append("Keyphrases: ").append("\n");
 			for (Keyphrase keyphrase : getKeyphrases())
 				st.append(keyphrase.toString()).append("\n");
 		}
-		if(getAcronyms() != null) {
+		if (getAcronyms() != null) {
 			st.append("Acronyms: ").append("\n");
 			for (Acronym acronym : getAcronyms())
 				st.append(acronym.toString()).append("\n");
@@ -360,5 +361,5 @@ public class Course {
 		st.append("-------------------------------------------------").append("\n\n");
 		return st.toString();
 	}
-	
+
 }

@@ -21,7 +21,8 @@ import se.kth.ict.docaid.course.Course;
  * The KTH API allows retrieving the course catalog and information for a given course in XML format. This parser reads the course catalog and creates a HashMap of
  * courses. Also for a given course it reads its' XML page using the API and updates the course's content.
  * 
- * @author andrew
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
  * 
  */
 public class CourseXMLPageParser {

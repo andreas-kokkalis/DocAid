@@ -30,7 +30,8 @@ import ws.palladian.preprocessing.scraping.ReadabilityContentExtractor;
 /**
  * Static class that contains the generic tools. Implemented as singleton to avoid multi-initialization of objects.
  * 
- * @author adrian
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
  * 
  */
 public class UtilClass {
@@ -85,25 +86,27 @@ public class UtilClass {
 			return createDocDocument(f);
 		else if (getTypeOfFile(f).equalsIgnoreCase(ODTFILE))
 			return createOdtDocument(f);
-		else if(getTypeOfFile(f).equalsIgnoreCase(PDFFILE))
+		else if (getTypeOfFile(f).equalsIgnoreCase(PDFFILE))
 			return createPdfDocument(f);
-		else if(getTypeOfFile(f).equalsIgnoreCase(PLAINFILE))
+		else if (getTypeOfFile(f).equalsIgnoreCase(PLAINFILE))
 			return createPlainFile(f);
 		throw new UnsupportedFileException("File type " + getTypeOfFile(f) + " is not supported.");
 	}
 
 	private InputDocument createPlainFile(File f) {
 		// TODO Auto-generated method stub
-		
+
 		Scanner sc;
 		try {
-			sc = new Scanner(f, "UTF-8");sc.useDelimiter("$^"); // regex matching nothing 
-			String text = sc.next(); sc.close(); 
+			sc = new Scanner(f, "UTF-8");
+			sc.useDelimiter("$^"); // regex matching nothing
+			String text = sc.next();
+			sc.close();
 			return new InputDocument(PLAINFILE, f.getName().substring(0, f.getName().length() - 4), text, 0);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 		return null;
 	}
 
@@ -117,12 +120,11 @@ public class UtilClass {
 	public static InputDocument createPdfDocument(File f) throws IOException {
 		PDDocument document = null;
 		try {
-		document = PDDocument.load(f);
-		}
-		catch(IOException e) {
+			document = PDDocument.load(f);
+		} catch (IOException e) {
 			System.out.println("PDF file: " + "\n" + e);
 		}
-		
+
 		PDFTextStripper stripper = new PDFTextStripper();
 		stripper.setStartPage(1);
 		stripper.setEndPage(document.getNumberOfPages());
@@ -169,7 +171,7 @@ public class UtilClass {
 			if (listOfFiles[i].isFile()) {
 				myListOfFiles.add(listOfFiles[i]);
 				System.out.println("File " + listOfFiles[i].getName());
-				
+
 			} else if (listOfFiles[i].isDirectory()) {
 				System.out.println("Directory " + listOfFiles[i].getName());
 			}
@@ -205,7 +207,7 @@ public class UtilClass {
 			e.printStackTrace();
 			return new String[0];
 		}
-		
+
 	}
 
 	public static LinkedList<File> getAcronymTestFiles() {
@@ -217,7 +219,7 @@ public class UtilClass {
 			if (listOfFiles[i].isFile()) {
 				myListOfFiles.add(listOfFiles[i]);
 				System.out.println("File " + listOfFiles[i].getName());
-				
+
 			} else if (listOfFiles[i].isDirectory()) {
 				System.out.println("Directory " + listOfFiles[i].getName());
 			}

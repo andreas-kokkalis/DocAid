@@ -2,6 +2,13 @@ package se.kth.ict.docaid.Recommender;
 
 import java.util.ArrayList;
 
+/**
+ * A course that is recomended. Contains the course code, and the recommendation weights.
+ * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ *
+ */
 public class RecommendedCourse {
 	String code;
 	double acronymWeight;
@@ -68,11 +75,11 @@ public class RecommendedCourse {
 
 	@Override
 	public String toString() {
-		return "RecommendedCourse [code=" + code + ", acronymWeight="
-				+ acronymWeight + ", keywordWeight=" + keywordWeight
-				+ ", keyphraseWeight=" + keyphraseWeight + ", acronymList="
+		return "RecommendedCourse \t[code=" + code + ", \tacronymWeight="
+				+ acronymWeight + ", \tkeywordWeight=" + keywordWeight
+				+ ", \tkeyphraseWeight=" + keyphraseWeight + ", \tacronymList="
 				+ acronymList + ", keywordList=" + keywordList
-				+ ", keyphraseList=" + keyphraseList + "]";
+				+ ", \tkeyphraseList=" + keyphraseList + "]";
 	}
 
 }

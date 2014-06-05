@@ -1,4 +1,4 @@
-package main.test;
+package se.kth.ict.docaid.modules;
 
 import java.util.HashMap;
 
@@ -16,12 +16,14 @@ import se.kth.ict.docaid.parser.CourseXMLPageParser;
 import se.kth.ict.docaid.stopwords.StopwordDictionairy;
 
 /**
- * Initializes database with the courses.
+ * Parses the XML pages provided by the KTH API to extract course codes. Then it retrieves meta data from each course page.
  * 
- * @author andrew
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
  *
  */
-public class CourseIndexBuilder {
+@SuppressWarnings("deprecation")
+public class CourseIndexBuilderWrp {
 	private static String courseListURI = "http://www.kth.se/api/kopps/v1/courseRounds/";
 
 	public static void storeCourseIndexInDB() {
@@ -40,9 +42,6 @@ public class CourseIndexBuilder {
 			HashMap<String, Course> selectedCourses = new HashMap<String, Course>();
 			for (Course course : courses.values()) {
 				System.out.println(c + " out of " + courses.size());
-				// if (c == 20) {
-				// break;
-				// }
 				selectedCourses.put(course.getCode(), course);
 				CourseXMLPageParser.updateCourseContent(course);
 				CourseHomePageParser.updateCourseInfo(course, stopwords);
@@ -50,12 +49,7 @@ public class CourseIndexBuilder {
 				c++;
 			}
 
-			// System.out.println("\n\n============================================================\n");
-			// Course course = courses.get("ID2203");
-			// CourseXMLPageParser.updateCourseContent(course);
-			// CourseHomePageParser.updateCourseInfo(course, stopwords);
-			// System.out.println(course.toString());
-			// System.out.println(course.getXmlReader().toString());
+			System.out.println("\n\n============================================================\n");
 			StoreCourses.storeCourseInfo(selectedCourses);
 
 		} catch (Exception e) {
@@ -65,16 +59,11 @@ public class CourseIndexBuilder {
 
 	public static void loadAllCoursesFromDB() {
 		DatabaseConnection connection = new DatabaseConnection();
-		Course course = FetchCourses.getCourseData("A21AYA", connection.getConnection());
-		System.out.println(course.toString2());
+//		Course course = FetchCourses.getCourseData("A21AYA", connection.getConnection());
+//		System.out.println(course.toString2());
 
-		// HashMap<String, Course> courses = CourseFetch.retrieveAllCourses(connection.getConnection());
-		// for(Course c: courses.values())
-		// c.toString2();
-	}
-
-	public static void main(String argv[]) {
-//		storeCourseIndexInDB();
-		loadAllCoursesFromDB();
+		 HashMap<String, Course> courses = FetchCourses.retrieveAllCourses(connection.getConnection());
+		 for(Course c: courses.values())
+		 c.toString2();
 	}
 }

@@ -6,6 +6,10 @@ import java.util.Set;
 
 /**
  * Keyword holder, composed by a unique stem, its frequency, and a set of found corresponding terms for this stem.
+ * 
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ *
  */
 public class Keyword implements Comparable<Keyword> {
 	/** The unique stem. */

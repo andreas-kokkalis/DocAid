@@ -8,8 +8,9 @@ import java.util.HashSet;
 /**
  * Stores stopwords in the database.
  * 
- * @author andrew
- *
+ * @author Andreas Kokkalis <a.kokkalis@kth.se>
+ * @author Adrian C. Prelipcean <acpr@kth.se>
+ * 
  */
 public class StoreStopwords {
 	/**
