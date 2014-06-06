@@ -14,9 +14,9 @@ public class RecommendedCourse {
 	double acronymWeight;
 	double keywordWeight;
 	double keyphraseWeight;
-	ArrayList<String> acronymList;
-	ArrayList<String> keywordList;
-	ArrayList<String> keyphraseList;
+	private ArrayList<String> acronymList;
+	private ArrayList<String> keywordList;
+	private ArrayList<String> keyphraseList;
 
 	public RecommendedCourse(String code, double acronymWeight,
 			ArrayList<String> acronymList, double keywordWeight,
@@ -80,6 +80,30 @@ public class RecommendedCourse {
 				+ ", \tkeyphraseWeight=" + keyphraseWeight + ", \tacronymList="
 				+ acronymList + ", keywordList=" + keywordList
 				+ ", \tkeyphraseList=" + keyphraseList + "]";
+	}
+
+	public ArrayList<String> getAcronymList() {
+		return acronymList;
+	}
+
+	public void setAcronymList(ArrayList<String> acronymList) {
+		this.acronymList = acronymList;
+	}
+
+	public ArrayList<String> getKeywordList() {
+		return keywordList;
+	}
+
+	public void setKeywordList(ArrayList<String> keywordList) {
+		this.keywordList = keywordList;
+	}
+
+	public ArrayList<String> getKeyphraseList() {
+		return keyphraseList;
+	}
+
+	public void setKeyphraseList(ArrayList<String> keyphraseList) {
+		this.keyphraseList = keyphraseList;
 	}
 
 }
