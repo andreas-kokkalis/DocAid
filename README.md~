@@ -36,16 +36,3 @@ The following list contains the wrappers that use the implemented modules.
 
 
 To better understand the project we advise you to read the techincal report.
-
------------------------------
-Libraries used
------------------------------
-• Apache Tika - https://www.google.se/search?q=apache+tika&oq=apache+tika&aqs=chrome..69i57j0l3.1425j0j1&sourceid=chrome&ie=UTF-8
-
-• Palladian - http://tech.knime.org/community/palladian
-
-• MAUI indexer - http://code.google.com/p/maui-indexer/ 
-
-• Jsoup Java HTML Parser - http://jsoup.org/
-
-• jlangdetect - https://github.com/melix/jlangdetect
