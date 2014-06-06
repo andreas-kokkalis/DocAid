@@ -18,7 +18,7 @@ public class AcronymDetector {
 	 * Generates a list of acronyms for the text
 	 * 
 	 * @param text Input text from which acronyms are extracted.
-	 * @return The list of acronyms if exist, or an empty list.
+	 * @return The list of acronyms if any exists, or an empty list.
 	 */
 	public static LinkedList<String> detectAcronyms(String text2) {
 		LinkedList<String> acronymList = new LinkedList<String>();
@@ -123,7 +123,7 @@ public class AcronymDetector {
 				containsLetters = true;
 		}
 		
-		if (s.length()<=2) return false;
+		if (s.length()<2) return false;
 
 		return (isAcronym && containsLetters);
 	}
@@ -184,8 +184,6 @@ public class AcronymDetector {
 				String[] words = s.split(" ");
 				for (int j = 0; j < words.length; j++) {
 					String w = words[j];
-						// String test  = acronym.replaceAll("[^\\x0A\\x0D\\x20-\\x7E]", "");
-						// String test2 = w.replaceAll("[^\\x0A\\x0D\\x20-\\x7E]", "");
 						
 					if (w.equalsIgnoreCase(acronym)) {
 						boolean print = false; 
@@ -264,7 +262,6 @@ public class AcronymDetector {
 										wordsAfter[indexAfter] = words[k];
 										indexAfter++;}}
 									catch (Exception e) {
-										// TODO Auto-generated catch block
 										//e.printStackTrace();
 										currentAcronym.setSpelledOnFirstCheck(false);
 										currentAcronym.setIsSpelledOut(false);

@@ -31,80 +31,25 @@ public class DatabaseRecommender {
 		connection = new DatabaseConnection().getConnection();
 	}
 
+	/**
+	 * Get the database recommender as a singleton
+	 * @return
+	 */
 	public static DatabaseRecommender getInstance() {
 		if (currentInstance == null)
 			currentInstance = new DatabaseRecommender();
 		return currentInstance;
 	}
 
-	public HashMap<RecommendedCourse, Double> getRecommendations(
-			ArrayList<Acronym> aL, ArrayList<Keyword> kL,
-			ArrayList<Keyphrase> kpL) {
-		HashMap<RecommendedCourse, Double> courses = new HashMap<RecommendedCourse, Double>();
-		if (aL.size()>0 && kL.size()>0 && kpL.size()>0){
-		String acronymString = "'{";
-		String keywordString = "'{";
-		String keyphraseString = "'{";
-
-		
-		for (Acronym acc : aL)
-			acronymString = acronymString + acc.getAcronym() + " , ";
-
-		acronymString = acronymString
-				.subSequence(0, acronymString.length() - 2) + "}'";
-
-		//System.out.println(acronymString);
-
-		for (Keyword k : kL)
-			keywordString = keywordString + k.getStem() + " , ";
-
-		keywordString = keywordString
-				.subSequence(0, keywordString.length() - 2) + "}'";
-		
-		//System.out.println(keywordString);
-
-		for (Keyphrase k : kpL)
-			keyphraseString = keyphraseString + k.getPhrase() + " , ";
-
-		keyphraseString = keyphraseString.subSequence(0,
-				keyphraseString.length() - 2)
-				+ "}'";
-		
-		//System.out.println(keyphraseString);
-		String query = " select * from suggestcoursesapproximate(" + acronymString+" , " + keywordString +" , " +keyphraseString+" ) order by similarity_acronym + similarity_keywords+similarity_keyphrases desc";
-		//System.out.println(query);
-
-		try {
-			Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			ResultSet results = st.executeQuery(query);
-			results.last();
-			if (results.getRow() == 0) {
-				return null;
-			}
-			results.beforeFirst();
-			while (results.next())
-				{
-				String code = results.getString(1);
-				double acronym_weight = results.getDouble(2);
-				double keyword_weight = results.getDouble(3);
-				double keyphrase_weight = results.getDouble(4);
-				
-				RecommendedCourse rC = new RecommendedCourse(code, acronym_weight, keyword_weight, keyphrase_weight);
-				
-				System.out.println(rC.toString());
-				
-				courses.put(rC, acronym_weight+keyword_weight+keyphrase_weight);
-				
-				}
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-		}
-		}
-		else System.out.println("NO PARTIAL RESULTS ALLOWED");
-		return courses;
-	}
-
+	/**
+	 * Contacts the database to get course recommendations 
+	 * @param courseCodes - a list of strings that represent the codes of interest courses parsed from the registration history 
+	 * @param aL - a list of acronyms of interest
+	 * @param kL - a list of keywords of interest 
+	 * @param kpL - a list of keyphrases of interest 
+	 * @param limit - the maximum number of courses allowed
+	 * @return - a hash map of recommended courses, together with the recommendation weight
+	 */
 	public HashMap<RecommendedCourse, Double> getCourseRecommendation(
 			LinkedList<String> courseCodes, 
 			LinkedList<Acronym> aL, ArrayList<Keyword> kL,
@@ -198,13 +143,20 @@ public class DatabaseRecommender {
 				}
 		}
 		catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return courses;
 	}
 	
-
+	/**
+	 * Contacts the database to get tutor recommendations 
+	 * @param courseCodes - a list of strings that represent the codes of interest courses parsed from the registration history 
+	 * @param aL - a list of acronyms of interest
+	 * @param kL - a list of keywords of interest 
+	 * @param kpL - a list of keyphrases of interest 
+	 * @param limit - the maximum number of tutor recommendations allowed
+	 * @return - a hash map of recommended tutors, together with the recommendation weight
+	 */
 	public HashMap<RecommendedTutor, Double> getTutorRecommendation(
 			LinkedList<String> courseCodes, 
 			LinkedList<Acronym> aL, ArrayList<Keyword> kL,
@@ -298,12 +250,15 @@ public class DatabaseRecommender {
 				}
 		}
 		catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return tutors;
 	}
 
+	/**
+	 * Retire the connection to the database and nullify object
+	 * @throws SQLException
+	 */
 	public static void cancelRecommender() throws SQLException {
 		connection.close();
 		connection = null;
