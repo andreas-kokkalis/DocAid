@@ -34,9 +34,9 @@ public class ExtractAcronymsExample {
 	private static void extractFromDoc() {
 		LinkedList<File> files = UtilClass.getAcronymTestFiles();
 		for (File f : files) {
-			System.out.println("====================================================");
-			System.out.println("TESTING DOCUMENT " + f.getName());
 			if (f.getName().equalsIgnoreCase("test3.pdf")) {
+				System.out.println("====================================================");
+				System.out.println("TESTING DOCUMENT " + f.getName());
 				InputDocument doc = null;
 				try {
 					doc = UtilClass.getInstance().getInputDocument(f);

@@ -47,9 +47,9 @@ public class ExtractKeyphrasesExample {
 	private static void extractFromDoc() {
 		LinkedList<File> files = UtilClass.getTestFiles();
 		for (File f : files) {
-			System.out.println("====================================================");
-			System.out.println("TESTING DOCUMENT " + f.getName());
 			if (f.getName().equalsIgnoreCase("testn3.pdf")) {
+				System.out.println("====================================================");
+				System.out.println("TESTING DOCUMENT " + f.getName());
 				InputDocument doc = null;
 				try {
 					doc = UtilClass.getInstance().getInputDocument(f);

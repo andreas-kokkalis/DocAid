@@ -38,9 +38,9 @@ public class CourseAdvisorExample {
 		DatabaseConnection connection = new DatabaseConnection();
 		LinkedList<File> files = UtilClass.getTestFiles();
 		for (File f : files) {
-			System.out.println("====================================================");
-			System.out.println("TESTING DOCUMENT " + f.getName());
 			if (f.getName().equalsIgnoreCase("test3.pdf") || f.getName().equalsIgnoreCase("test2.pdf") || f.getName().equalsIgnoreCase("test1.pdf")) {
+				System.out.println("====================================================");
+				System.out.println("TESTING DOCUMENT " + f.getName());
 				InputDocument doc = null;
 				try {
 					doc = UtilClass.getInstance().getInputDocument(f);
