@@ -34,7 +34,7 @@ public class Translator {
 	public static String translate(String from, String to, String text) {
 
 		String url = "http://api.mymemory.translated.net/api/get?q=" + URLEncoder.encode(text) + "&langpair=" + URLEncoder.encode(from + "|" + to);
-		// TODO: the following is not depricated.
+		// TODO: the following is not deprecated.
 		// String url = "http://api.mymemory.translated.net/api/get?q="+URLEncoder.encode(text, "UTF-8")+"&langpair="+URLEncoder.encode(from+"|"+to, "UTF-8");
 
 		System.out.println(url);
