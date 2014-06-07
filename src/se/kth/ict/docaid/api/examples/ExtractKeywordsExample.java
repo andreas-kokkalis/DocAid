@@ -57,7 +57,7 @@ public class ExtractKeywordsExample {
 	private static void extractKeywordsFromDocument() {
 		LinkedList<File> files = UtilClass.getTestFiles();
 		for (File f : files) {
-			if (f.getName().equalsIgnoreCase("testn3.pdf")) {
+			if (f.getName().equalsIgnoreCase("test3.pdf")) {
 				System.out.println("====================================================");
 				System.out.println("TESTING DOCUMENT " + f.getName());
 				InputDocument doc = null;
