@@ -10,10 +10,15 @@ Extracting and Integrating Meta-data from online sources.
 A set of examples leading to improved course and instructor selection for KTH Royal Institute of Technology students.
 
 The following modules are the code of DocAid Engine.
+
 	• Acronym extraction module for a text source - URL or uploaded document.
+
 	• Keyword extraction module for a text source - URL or uploaded document.
+
 	• Key phrase extraction module for a text source - URL or uploaded document.
+
 	• Document analysis module combines the previous modules for a given text source.
+
 	• Course Advisor - uses the document analysis module to extract meta data from various sources (i.e documents, registration history, user’s interests) and outputs a list of course and instructor recommendations.
 
 
